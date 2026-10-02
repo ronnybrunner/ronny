@@ -18,7 +18,7 @@ Nach ausdrücklicher Freigabe der Geschwisterordner: READMEs, Architektur-/Revie
 
 ## 3. Übernommene CV-Inhalte
 
-Timeline mit 2011 Ausbildung, 2014 Privatkundentechnik, 2016 Messe-/Event-IT, 2018 Operations Manager II und 2026 AI-Qualifikationen. Cisco Routing/Switching/LAN/WLAN, Meraki, Collaboration, Betrieb im 2nd-/3rd-Level, technische Kundenberatung und Lifecycle/Release. Aus der DOCX stammen Campus-Infrastruktur, UC-Modernisierung und kontinuierliches Release-/Lifecycle-Management.
+Orte nach Ronnys ausdrücklicher Korrektur: Ausbildung, Privatkundentechnik und Messe-/Eventmanagement in Hamburg; Operations Manager II in Bremen. Timeline mit 2011 Ausbildung, 2014 Privatkundentechnik, 2016 Messe-/Event-IT, 2018 Operations Manager II und 2026 AI-Qualifikationen. Cisco Routing/Switching/LAN/WLAN, Meraki, Collaboration, Betrieb im 2nd-/3rd-Level, technische Kundenberatung und Lifecycle/Release. Aus der DOCX stammen Campus-Infrastruktur, UC-Modernisierung und kontinuierliches Release-/Lifecycle-Management.
 
 Die Projektbeschreibungen trennen eigenständige Arbeit von Teambeiträgen. Keine erfundenen Projektjahre. Qualifikationen werden als Stand September 2026 dargestellt; CCNP Automation ausschließlich „in Vorbereitung“. Zertifikatdateien lagen nicht vor; die CV-Angaben wurden nicht unabhängig bei Cisco verifiziert. Telefonnummern, Geburtsdaten und private Kontaktdaten wurden nicht übernommen.
 
@@ -67,7 +67,7 @@ Keine große UI-Library. Separate Chunks für Projektseiten, Präsentation und D
 ## 10. Tests
 
 - `npm run lint`: bestanden.
-- `npm test`: 6 Vitest-Tests bestanden.
+- `npm test`: 7 Vitest-Tests bestanden.
 - `npm run build`: TypeScript und Produktionsbuild bestanden.
 - `npm run test:e2e`: 10 Playwright-Tests bestanden, Desktop und iPhone-Profil.
 - Geprüft: Navigation, Projektseiten samt Direktaufruf/Reload, Präsentationsmodus, Kapitelwahl, Pfeiltasten, Escape, Menüfokus, Skip-Link, Reduced Motion und kleine Displays.
@@ -81,12 +81,12 @@ Chromium wurde tatsächlich ausgeführt. Safari/Firefox und echte Mobilgeräte w
 
 Finale lokale Desktop-Messung auf dem Produktionsbuild mit Lighthouse 13.5 und headless Chromium; Werte in `artifacts/lighthouse-desktop-final.report.json` und `.html`. Die Dateien bleiben lokal und werden nicht eingecheckt. Eine lokale Labormessung garantiert keine identischen Ergebnisse auf einem späteren Hostinganbieter.
 
-| Kategorie      |             Ergebnis | Ziel |
-| -------------- | -------------------: | ---: |
-| Performance    |    100 | ≥ 90 |
-| Accessibility  |  100 | ≥ 95 |
-| Best Practices | 100 | ≥ 95 |
-| SEO            |            100 | ≥ 90 |
+| Kategorie      | Ergebnis | Ziel |
+| -------------- | -------: | ---: |
+| Performance    |      100 | ≥ 90 |
+| Accessibility  |      100 | ≥ 95 |
+| Best Practices |      100 | ≥ 95 |
+| SEO            |      100 | ≥ 90 |
 
 ## 12. Git-Status
 

@@ -54,3 +54,7 @@ Der Nutzer hat die Analyse der Geschwisterordner unter `Programming` ausdrückli
 - Smart Dispatch nicht als Projektordner gefunden.
 
 Die eigene Rolle folgt der Nutzerangabe „Alle meine Projekte“. Keine alleinige manuelle Code-Autorenschaft behauptet. AI-Unterstützung wird transparent benannt. „Was ich mitnehme“ beschreibt Architekturentscheidungen aus den Quellen als redaktionelle Reflexion, keine erfundenen Erfolgsmetriken.
+
+## Standortkorrektur durch Ronny
+
+Ronny hat die Zuordnung ausdrücklich korrigiert: Ausbildung 2011–2014, Senior Fachkraft Technik 2014–2016 und Messe-/Eventmanagement 2016–2018 in Hamburg; Operations Manager II seit Juni 2018 in Bremen. Diese direkte Angabe hat Vorrang vor der Bremen-Angabe zur Ausbildung in der ursprünglichen DOCX. Die Website und der Präsentationsmodus wurden korrigiert; die Original-Lebenslaufdateien bleiben auf Wunsch unverändert. AI 2026 ist eine Weiterbildung ohne erfundenen Arbeitsort.

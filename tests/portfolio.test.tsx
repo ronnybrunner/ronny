@@ -1,8 +1,14 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  within,
+} from "@testing-library/react";
 import { describe, it, expect, beforeEach } from "vitest";
 import App from "../src/App";
 import { Navigation } from "../src/components/Navigation";
-import { Expertise } from "../src/components/Sections";
+import { Expertise, Experience } from "../src/components/Sections";
 import { projects } from "../src/content/projects";
 describe("Portfolio", () => {
   beforeEach(() => window.history.replaceState({}, "", "/"));
@@ -20,6 +26,26 @@ describe("Portfolio", () => {
     expect(
       screen.getByText("Infrastruktur ist auch etwas, das man baut."),
     ).toBeInTheDocument();
+  });
+  it("ordnet die beruflichen Stationen den von Ronny bestätigten Orten zu", () => {
+    render(<Experience />);
+    for (const role of [
+      "Ausbildung zum IT-Systemelektroniker · Telekom",
+      "Senior Fachkraft Technik Privatkunden",
+      "Messe- und Eventmanagement",
+    ]) {
+      const station = screen.getByText(role).closest("li")!;
+      expect(within(station).getByText("Hamburg")).toBeInTheDocument();
+      expect(within(station).queryByText("Bremen")).not.toBeInTheDocument();
+    }
+    const operations = screen
+      .getByText("Operations Manager II · Network & Infrastructure Services")
+      .closest("li")!;
+    expect(within(operations).getByText("Bremen")).toBeInTheDocument();
+    expect(within(operations).getByText("Seit 06/2018")).toBeInTheDocument();
+    const learning = screen.getByText("Automatisierung & AI").closest("li")!;
+    expect(within(learning).getByText("Weiterbildung")).toBeInTheDocument();
+    expect(within(learning).queryByText("Bremen")).not.toBeInTheDocument();
   });
   it("öffnet und schließt das Menü per Escape mit Fokusrückgabe", () => {
     render(<Navigation />);

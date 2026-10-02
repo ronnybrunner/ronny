@@ -5,7 +5,14 @@ import {
   useTransform,
   useReducedMotion,
 } from "motion/react";
-import { ArrowDown, ArrowUpRight, ArrowRight, Plus, Minus } from "lucide-react";
+import {
+  ArrowDown,
+  ArrowUpRight,
+  ArrowRight,
+  MapPin,
+  Plus,
+  Minus,
+} from "lucide-react";
 import { profile, approach, heroIdentities } from "../content/profile";
 import { experience } from "../content/experience";
 import { expertise, universe, qualifications } from "../content/skills";
@@ -140,21 +147,49 @@ export function Experience() {
           Von der Technik vor Ort bis zum Blick auf die gesamte Infrastruktur.
         </p>
       </Reveal>
+      <Reveal className="experience-route">
+        <div>
+          <MapPin size={18} aria-hidden="true" />
+          <span>
+            Hamburg<small>Ausbildung · Technik · Events</small>
+          </span>
+        </div>
+        <ArrowRight className="route-arrow" size={24} aria-hidden="true" />
+        <div>
+          <MapPin size={18} aria-hidden="true" />
+          <span>
+            Bremen<small>Operations · seit 2018</small>
+          </span>
+        </div>
+      </Reveal>
       <div ref={ref} className="timeline">
         <div className="timeline-track">
           <motion.div style={{ scaleY: reduced ? 1 : scrollYProgress }} />
         </div>
-        {experience.map((item) => (
-          <Reveal className="timeline-row" key={item.year}>
-            <span className="timeline-year">{item.year}</span>
-            <div>
-              <span className="timeline-dot" />
-              <p className="eyebrow">{item.role}</p>
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </div>
-          </Reveal>
-        ))}
+        <ol className="timeline-stations">
+          {experience.map((item) => (
+            <li key={item.year}>
+              <Reveal className="timeline-row">
+                <div className="timeline-time">
+                  <span className="timeline-year">{item.year}</span>
+                  <span className="timeline-period">{item.period}</span>
+                </div>
+                <div className="timeline-content">
+                  <span className="timeline-dot" aria-hidden="true" />
+                  {item.city && (
+                    <span className="timeline-city">
+                      <MapPin size={14} aria-hidden="true" />
+                      {item.city}
+                    </span>
+                  )}
+                  <p className="eyebrow">{item.role}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </div>
     </section>
   );

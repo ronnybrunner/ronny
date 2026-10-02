@@ -470,7 +470,7 @@ h3 {
   grid-template-columns: 24% 1fr;
   padding: 0 0 68px;
 }
-.timeline-row:last-child {
+.timeline-stations > li:last-child .timeline-row {
   padding-bottom: 0;
 }
 .timeline-year {
@@ -479,7 +479,7 @@ h3 {
   letter-spacing: -0.045em;
   color: var(--muted);
 }
-.timeline-row > div {
+.timeline-content {
   position: relative;
   padding-left: 58px;
 }
@@ -1592,7 +1592,7 @@ h3 {
     grid-template-columns: 80px 1fr;
     padding-bottom: 48px;
   }
-  .timeline-row > div {
+  .timeline-content {
     padding-left: 25px;
   }
   .timeline-year {
@@ -1963,5 +1963,124 @@ h3 {
   .project-page-hero h1 {
     font-size: 44px;
     overflow-wrap: anywhere;
+  }
+}
+
+.experience-route {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  max-width: 760px;
+  margin-top: 45px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+}
+.experience-route > div {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  flex: 1;
+}
+.experience-route svg {
+  color: var(--lavender);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.experience-route span {
+  font-size: 26px;
+  letter-spacing: -0.025em;
+}
+.experience-route small {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.experience-route .route-arrow {
+  margin-top: 0;
+}
+.timeline-stations {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.timeline-time {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 18px;
+}
+.timeline-period {
+  font-family: monospace;
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.timeline-city {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--light);
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0 0 12px;
+}
+.presentation .experience h2 {
+  font-size: clamp(36px, 4vw, 58px);
+}
+.presentation .experience-route {
+  margin-top: 28px;
+  padding-top: 20px;
+}
+.presentation .experience .timeline {
+  margin-top: 40px;
+}
+.presentation .experience .timeline-row {
+  padding-bottom: 32px;
+}
+.presentation .experience .timeline-year {
+  font-size: 38px;
+}
+.presentation .experience .timeline-row h3 {
+  font-size: 25px;
+  margin: 10px 0 12px;
+}
+@media (max-width: 760px) {
+  .experience-route {
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+  }
+  .experience-route > div {
+    gap: 8px;
+  }
+  .experience-route span {
+    font-size: 21px;
+  }
+  .experience-route small {
+    font-size: 10px;
+    max-width: 120px;
+    line-height: 1.6;
+  }
+  .experience-route svg {
+    width: 14px;
+  }
+  .timeline-period {
+    font-size: 9px;
+  }
+  .timeline-time {
+    padding-right: 10px;
+    gap: 7px;
+  }
+  .timeline-city {
+    font-size: 12px;
+    margin-bottom: 9px;
+  }
+  .presentation .experience .timeline-year {
+    font-size: 27px;
+  }
+  .presentation .experience .timeline-row h3 {
+    font-size: 23px;
   }
 }
