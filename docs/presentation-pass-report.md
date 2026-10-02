@@ -66,3 +66,7 @@ Die strikte Anforderung „ohne Scrollen“ gilt für die Expertise-Folie. Proje
 Unter `artifacts/presentation-pass/` (Git-ignoriert): alle fünf Kapitel und Übersicht in sieben Größen, Mobile zusätzlich als vollständige Seitenaufnahme, sowie `audit.json`.
 
 Repräsentativ: `desktop-me.png`, `desktop-expertise.png`, `macbook-experience.png`, `compact-expertise.png`, `mobile390-expertise-full.png` und `desktop-overview.png`.
+
+## 8. Veröffentlichung: ergänzende Mobile-Korrektur
+
+Der erste GitHub-Lauf fand bei 320 px eine Überbreite im Release-Portal-Architekturdiagramm. Der lange Windmill-Labeltext vergrößerte die intrinsische Mindestbreite des Inhaltsrasters. Grid-Kinder dürfen jetzt schrumpfen; Diagrammtexte können lange Wörter umbrechen. Der Browser-Test wartet auf geladene Fonts und prüft zusätzlich, dass das Diagramm innerhalb des Inhaltsrasters bleibt. Format, Lint, acht Komponententests, Build sowie elf Browser-Tests mit einem vorgesehenen Mobile-Skip wurden danach lokal erneut erfolgreich ausgeführt.

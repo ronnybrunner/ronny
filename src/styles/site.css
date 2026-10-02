@@ -661,8 +661,13 @@ h3 {
 .diagram-node svg {
   flex-shrink: 0;
 }
+.diagram-node > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
 .diagram-node small {
   margin-left: auto;
+  flex-shrink: 0;
   color: var(--muted);
   font-size: 9px;
 }
@@ -858,6 +863,9 @@ h3 {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 60px;
+}
+.project-detail-grid > div {
+  min-width: 0;
 }
 .project-detail-grid > div > div {
   margin-bottom: 70px;

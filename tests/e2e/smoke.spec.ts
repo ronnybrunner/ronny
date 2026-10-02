@@ -104,11 +104,25 @@ test("Tastaturzugang und sehr kleine Displays", async ({ page }) => {
     await page.goto(route);
     await expect(page.locator("main")).toBeVisible();
     await expect(page.locator(".loading")).toHaveCount(0);
+    await page.evaluate(() => document.fonts.ready);
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
+      `Keine horizontale Überbreite auf ${route}`,
     ).toBe(true);
+    for (const diagram of await page
+      .locator(".project-detail-grid .diagram")
+      .all()) {
+      expect(
+        await diagram.evaluate(
+          (el) =>
+            el.getBoundingClientRect().right <=
+            el.closest(".project-detail-grid")!.getBoundingClientRect().right,
+        ),
+        `Architektur bleibt innerhalb des Inhaltsrasters auf ${route}`,
+      ).toBe(true);
+    }
   }
 });
 
