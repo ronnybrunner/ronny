@@ -90,7 +90,7 @@ Finale lokale Desktop-Messung auf dem Produktionsbuild mit Lighthouse 13.5 und h
 
 ## 12. Git-Status
 
-Das Verzeichnis war anfangs kein Git-Repository. Ein neues Repository mit Branch `main` wurde angelegt. Projektdateien und ausschließlich freigegebene Web-Assets sind versioniert. Private Originale bleiben ignoriert. Abschließender Status nach dem Commit: sauber. Kein Remote konfiguriert, kein Push und keine öffentliche Veröffentlichung.
+Das Verzeichnis war anfangs kein Git-Repository. Ein neues Repository mit Branch `main` wurde angelegt. Projektdateien und ausschließlich freigegebene Web-Assets sind versioniert. Private Originale bleiben ignoriert. Abschließender Status nach dem Commit: sauber. Remote `origin` ist mit `https://github.com/ronnybrunner/ronny.git` verbunden. `main` wurde gepusht. Das Repository wurde nach ausdrücklicher Freigabe öffentlich gestellt und GitHub Pages mit GitHub Actions aktiviert.
 
 ## 13. Commit
 
@@ -109,4 +109,4 @@ Produktionsvorschau: `npm run build` und `npm run preview`. Node.js 24 oder neue
 
 Workflow in `.github/workflows/deploy.yml`: Lint, Vitest, Root-Build und Playwright, anschließend Build mit dem richtigen Repository-Base-Pfad und Pages-Deployment. Pull Requests werden geprüft; ein Push auf `main` oder manueller Workflow kann deployen. Base-Pfad automatisch aus Repositorynamen; Custom Domain über Repositoryvariable `VITE_BASE_PATH=/`.
 
-Für die Veröffentlichung fehlen noch Remote-Repository und die gewünschte Domain. Repository anlegen, `main` pushen und Settings → Pages → GitHub Actions wählen. Betreiber-/Hostingangaben und endgültige Domain-Metadaten für die echte Veröffentlichung ergänzen. Die vollständige Anleitung steht in [README.md](../README.md).
+Veröffentlichung unter `https://ronnybrunner.github.io/ronny/`. Das Repository und Pages sind eingerichtet; zukünftige Pushes auf `main` starten den geprüften Deployment-Workflow. Eine eigene Domain ist optional. Betreiber-/Hostingangaben und endgültige Domain-Metadaten für die echte Veröffentlichung ergänzen. Die vollständige Anleitung steht in [README.md](../README.md).

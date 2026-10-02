@@ -46,13 +46,13 @@ Normale Kapitelnavigation verwendet native Anker. Die Präsentation unter `/pres
 
 Keine Bewerbungsaufforderung, keine Skill-Prozente. Infrastrukturbeispiele sind anonymisiert; Bilder von Kundenanwendungen wurden nicht übernommen. Watchtower wird als **nachgestellte Ansicht mit Beispieldaten** dargestellt. Release Portal bleibt auf ausdrücklichen Wunsch ohne Screenshot. Die Family-Aufnahme wird ohne Freigabe nicht verwendet. Originale, Lebensläufe, lokale Adressen, Datenbanken und Secrets gehören nicht in Git und nicht in `dist`.
 
-Die Website lädt keine externen Fonts, Analytics oder Remote-Anwendungen. Keine Anwendungs-Cookies und keine Formulare. Die Datenschutzseite beschreibt die technische Auslieferung. Vor einer öffentlichen Veröffentlichung Betreiber-/Hostingangaben und gegebenenfalls erforderliche rechtliche Angaben für die reale Domain ergänzen. Aktuell wurden weder Remote-Repository noch Domain angegeben; es erfolgte kein öffentlicher Upload.
+Die Website lädt keine externen Fonts, Analytics oder Remote-Anwendungen. Keine Anwendungs-Cookies und keine Formulare. Die Datenschutzseite beschreibt die technische Auslieferung. Vor einer öffentlichen Veröffentlichung Betreiber-/Hostingangaben und gegebenenfalls erforderliche rechtliche Angaben für die reale Domain ergänzen. Das Projekt liegt im öffentlichen Repository [ronnybrunner/ronny](https://github.com/ronnybrunner/ronny). Die Website wird unter [ronnybrunner.github.io/ronny](https://ronnybrunner.github.io/ronny/) über GitHub Pages ausgeliefert.
 
 Bilder neu optimieren (Originale müssen lokal vorhanden sein): `node scripts/images.mjs`. Die Originaldateien werden nicht verändert. Sharp exportiert WebP ohne übernommene Metadaten.
 
 ## GitHub Pages
 
-1. Repository erstellen und Projektdateien auf Branch `main` pushen. Keine Quelldokumente oder Originalfotos hochladen.
+1. Das Repository `ronnybrunner/ronny` ist verbunden. Änderungen auf Branch `main` pushen. Keine Quelldokumente oder Originalfotos hochladen.
 2. Settings → Pages → Source: **GitHub Actions**.
 3. Der Workflow prüft Lint, Unit-Tests, Build und Browser-Smoke-Tests und deployt anschließend `dist`.
 4. Der Base-Pfad wird automatisch aus dem Repositorynamen abgeleitet. Für `name.github.io` gilt `/`, für Projekt-Repositories `/<repo>/`.
