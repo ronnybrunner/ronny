@@ -6,7 +6,6 @@ import {
   Layers,
   ArrowDown,
   Code2,
-  Mic,
   ScanLine,
   RefreshCw,
 } from "lucide-react";
@@ -18,15 +17,13 @@ export function Diagram({
   compact?: boolean;
 }) {
   const Icon =
-    project.slug === "rvoice"
-      ? Mic
-      : project.kind === "campus"
-        ? Network
-        : project.kind === "uc"
-          ? Radio
-          : project.kind === "website"
-            ? Code2
-            : RefreshCw;
+    project.kind === "campus"
+      ? Network
+      : project.kind === "uc"
+        ? Radio
+        : project.kind === "website"
+          ? Code2
+          : RefreshCw;
   return (
     <div
       className={`diagram diagram-${project.kind} ${compact ? "compact" : ""}`}
@@ -46,12 +43,12 @@ export function Diagram({
         <Icon strokeWidth={1} size={70} />
         <span>
           {project.kind === "campus"
-            ? "CONNECTED."
+            ? "CAMPUS"
             : project.kind === "uc"
-              ? "RECONNECTED."
+              ? "COLLABORATION"
               : project.kind === "lifecycle"
-                ? "AHEAD."
-                : "BUILT."}
+                ? "LIFECYCLE"
+                : "ARCHITECTURE"}
         </span>
       </div>
       <div className="diagram-nodes">

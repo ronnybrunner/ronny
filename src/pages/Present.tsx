@@ -1,8 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { ArrowLeft, ArrowRight, Grid2X2, Maximize, X } from "lucide-react";
 import { chapters } from "../content/profile";
 import { projects } from "../content/projects";
 import { sectionComponents } from "../components/Sections";
+import {
+  PresentationAboutSlide,
+  PresentationExpertiseSlide,
+} from "../components/PresentationSlides";
 import { Link } from "../components/Link";
 import { navigate } from "../hooks/useRoute";
 export default function Present() {
@@ -17,7 +27,11 @@ export default function Present() {
   const move = useCallback((n: number) => {
     setIndex((i) => Math.max(0, Math.min(chapters.length - 1, i + n)));
     setOverview(false);
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+  const toggleOverview = useCallback(() => {
+    setOverview((value) => !value);
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
   useEffect(() => {
     document.title = "Präsentation — Ronny Brunner";
@@ -39,17 +53,25 @@ export default function Present() {
         if (overview) setOverview(false);
         else exit();
       }
-      if (e.key.toLowerCase() === "o") setOverview((x) => !x);
+      if (e.key === "0" || e.key.toLowerCase() === "o") {
+        e.preventDefault();
+        toggleOverview();
+      }
     };
     window.addEventListener("keydown", key);
     return () => window.removeEventListener("keydown", key);
-  }, [move, exit, overview]);
-  useEffect(() => {
+  }, [move, exit, overview, toggleOverview]);
+  useLayoutEffect(() => {
     heading.current?.focus({ preventScroll: true });
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, [index, overview]);
   const chapter = chapters[index];
   const Section =
-    sectionComponents[chapter.id as keyof typeof sectionComponents];
+    chapter.id === "me"
+      ? PresentationAboutSlide
+      : chapter.id === "expertise"
+        ? PresentationExpertiseSlide
+        : sectionComponents[chapter.id as keyof typeof sectionComponents];
   async function fullscreen() {
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
@@ -64,9 +86,6 @@ export default function Present() {
   return (
     <div className="presentation">
       <header className="presentation-header">
-        <Link to="/" className="wordmark">
-          Ronny<span>.</span>
-        </Link>
         <span aria-live="polite">
           0{index + 1} / 0{chapters.length} — {chapter.label}
         </span>
@@ -75,7 +94,7 @@ export default function Present() {
             className="icon-button"
             aria-label="Kapitelübersicht"
             aria-expanded={overview}
-            onClick={() => setOverview(!overview)}
+            onClick={toggleOverview}
           >
             <Grid2X2 size={20} />
           </button>
@@ -104,7 +123,7 @@ export default function Present() {
         />
         {overview ? (
           <div className="chapter-overview">
-            <h1>Worüber sprechen wir?</h1>
+            <h1>Kapitelübersicht</h1>
             <div className="chapter-grid">
               {chapters.map((c, i) => (
                 <button
@@ -112,7 +131,7 @@ export default function Present() {
                   onClick={() => {
                     setIndex(i);
                     setOverview(false);
-                    window.scrollTo(0, 0);
+                    window.scrollTo({ top: 0, behavior: "instant" });
                   }}
                 >
                   <span>0{i + 1}</span>
@@ -158,13 +177,13 @@ export default function Present() {
               onClick={() => {
                 setIndex(i);
                 setOverview(false);
-                window.scrollTo(0, 0);
+                window.scrollTo({ top: 0, behavior: "instant" });
               }}
             />
           ))}
         </div>
         <span className="keyboard-hint">
-          ← → Kapitel · O Übersicht · ESC Ende
+          ← → Kapitel · 0 Übersicht · ESC Ende
         </span>
         <button
           className="icon-button"

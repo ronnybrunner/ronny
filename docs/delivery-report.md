@@ -1,3 +1,5 @@
+> Historischer Bericht zur Erstversion. Den aktuellen Stand nach dem Korrekturauftrag dokumentiert [Design-, Content- und Typography-Pass](design-pass-report.md).
+
 # Abschlussbericht
 
 Stand: 2. Oktober 2026.

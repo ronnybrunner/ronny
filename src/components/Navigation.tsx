@@ -57,7 +57,7 @@ export function Navigation({ home = true }: { home?: boolean }) {
   return (
     <header className="site-header">
       <Link to="/" className="wordmark" aria-label="Ronny Brunner – Startseite">
-        Ronny<span>.</span>
+        R<span>.</span>
       </Link>
       <button
         ref={toggle}

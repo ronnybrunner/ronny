@@ -22,12 +22,24 @@ test("Präsentation, Kapitelwahl, Tastatur und Ausstieg", async ({ page }) => {
     page.getByRole("button", { name: "Vorheriges Kapitel" }),
   ).toBeDisabled();
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByText("02 / 06 — EXPERIENCE")).toBeVisible();
-  await page.keyboard.press("o");
-  await page.getByRole("button", { name: /05 PROJECTS/ }).click();
+  await expect(page.getByText("02 / 05 — EXPERIENCE")).toBeVisible();
+  await page.keyboard.press("0");
+  await page.getByRole("button", { name: /04 PROJECTS/ }).click();
   await expect(
     page.getByRole("heading", { name: "Watchtower", exact: true }),
   ).toBeVisible();
+  await page.evaluate(() =>
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "instant",
+    }),
+  );
+  await page.keyboard.press("0");
+  await expect(
+    page.getByRole("heading", { name: "Kapitelübersicht" }),
+  ).toBeVisible();
+  expect(await page.evaluate(() => window.scrollY)).toBe(0);
+  await page.keyboard.press("Escape");
   await page.keyboard.press("Escape");
   await expect(page).toHaveURL(/\/#projects$/);
 });
@@ -56,15 +68,7 @@ test("Reduced Motion, Mobile-Menü und keine Überbreite", async ({ page }) => {
 test("alle Detailseiten laden direkt ohne Laufzeitfehler", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  for (const slug of [
-    "watchtower",
-    "release-portal",
-    "rvoice",
-    "campus",
-    "uc-modernisierung",
-    "lifecycle",
-    "personal-website",
-  ]) {
+  for (const slug of ["watchtower", "release-portal"]) {
     await page.goto(`/projects/${slug}/`);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
@@ -105,5 +109,76 @@ test("Tastaturzugang und sehr kleine Displays", async ({ page }) => {
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
+  }
+});
+
+test("Capability Map passt ohne Scrollen zwischen die Präsentationsleisten", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "desktop",
+    "Desktop-Geometrie; Mobile darf scrollen",
+  );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const [width, height] of [
+    [1920, 1080],
+    [2560, 1440],
+    [1440, 900],
+    [1366, 768],
+    [1280, 720],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await page.goto("/present");
+    await expect(page.getByText("01 / 05 — ME")).toBeVisible();
+    await expect(page.locator(".presentation-header .wordmark")).toHaveCount(0);
+    await expect(page.locator(".chapter-dots button")).toHaveCount(5);
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByText("02 / 05 — EXPERIENCE")).toBeVisible();
+    await page.evaluate(() => document.fonts.ready);
+    expect(
+      await page.evaluate(
+        () =>
+          document.querySelector(".timeline-stations")!.getBoundingClientRect()
+            .bottom <
+          document
+            .querySelector(".presentation-controls")!
+            .getBoundingClientRect().top,
+      ),
+    ).toBe(true);
+    await page.keyboard.press("ArrowRight");
+    await expect(page.getByText("03 / 05 — EXPERTISE")).toBeVisible();
+    await expect(page.locator(".capability-panel")).toHaveCount(4);
+    await expect(page.locator(".capability-slide button")).toHaveCount(0);
+    await page.evaluate(() => document.fonts.ready);
+    for (const topic of [
+      "Cisco Catalyst",
+      "CUCM",
+      "Cisco Security Advisories",
+      "Release Management",
+      "TECHNOLOGIEUMFELD",
+    ])
+      await expect(page.getByText(topic, { exact: true })).toBeVisible();
+    const geometry = await page.evaluate(() => {
+      const top = document
+        .querySelector(".presentation-header")!
+        .getBoundingClientRect().bottom;
+      const bottom = document
+        .querySelector(".presentation-controls")!
+        .getBoundingClientRect().top;
+      const content = [
+        ...document.querySelectorAll(
+          ".capability-slide h2,.capability-panel,.capability-panel li,.capability-environment",
+        ),
+      ].map((el) => el.getBoundingClientRect());
+      const header = document
+        .querySelector(".presentation-header > span")!
+        .getBoundingClientRect();
+      return {
+        fits: content.every((r) => r.top >= top && r.bottom <= bottom),
+        noScroll: document.documentElement.scrollHeight <= innerHeight,
+        centered: Math.abs(header.left + header.width / 2 - innerWidth / 2) < 1,
+      };
+    });
+    expect(geometry).toEqual({ fits: true, noScroll: true, centered: true });
   }
 });

@@ -18,7 +18,7 @@ export default function Project({ slug }: { slug: string }) {
       <>
         <Navigation home={false} />
         <main id="main" className="section not-found">
-          <h1>Hier ist noch nichts gebaut.</h1>
+          <h1>Projekt nicht gefunden.</h1>
           <Link to="/">Zur Startseite</Link>
         </main>
       </>
@@ -67,7 +67,7 @@ export default function Project({ slug }: { slug: string }) {
               <Diagram project={project} />
             </Reveal>
             <Reveal>
-              <h2>Was dazugehört.</h2>
+              <h2>Funktionen und Stack.</h2>
               <ul>
                 {project.features.map((f) => (
                   <li key={f}>{f}</li>
@@ -80,8 +80,8 @@ export default function Project({ slug }: { slug: string }) {
               </div>
             </Reveal>
             <Reveal>
-              <h2>Was ich mitnehme.</h2>
-              <p>{project.learned}</p>
+              <h2>Ergebnis und Stand.</h2>
+              <p>{project.result}</p>
             </Reveal>
           </div>
         </div>

@@ -4,16 +4,14 @@ import { afterEach, vi } from "vitest";
 afterEach(() => cleanup());
 Object.defineProperty(window, "matchMedia", {
   writable: true,
-  value: vi
-    .fn()
-    .mockImplementation((query: string) => ({
-      matches: query.includes("prefers-reduced-motion"),
-      media: query,
-      addListener: vi.fn(),
-      removeListener: vi.fn(),
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    })),
+  value: vi.fn().mockImplementation((query: string) => ({
+    matches: query.includes("prefers-reduced-motion"),
+    media: query,
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
+    addEventListener: vi.fn(),
+    removeEventListener: vi.fn(),
+  })),
 });
 class Observer {
   observe() {}

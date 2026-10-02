@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -13,7 +13,7 @@ import {
   Plus,
   Minus,
 } from "lucide-react";
-import { profile, approach, heroIdentities } from "../content/profile";
+import { profile } from "../content/profile";
 import { experience } from "../content/experience";
 import { expertise, universe, qualifications } from "../content/skills";
 import { projects } from "../content/projects";
@@ -35,21 +35,8 @@ export function Label({
   );
 }
 export function Hero() {
-  const [identity, setIdentity] = useState(0);
   const ref = useRef<HTMLElement>(null);
   const reduced = useReducedMotion();
-  useEffect(() => {
-    if (
-      reduced ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    )
-      return;
-    const timer = window.setInterval(() => {
-      if (document.visibilityState === "visible")
-        setIdentity((i) => (i + 1) % heroIdentities.length);
-    }, 6500);
-    return () => window.clearInterval(timer);
-  }, [reduced]);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -58,16 +45,11 @@ export function Hero() {
   return (
     <section ref={ref} className="hero" aria-labelledby="hero-title">
       <div className="hero-topline">
-        <span>PERSONAL SPACE / RONNY BRUNNER</span>
+        <span>NETWORK & INFRASTRUCTURE</span>
         <span>BREMEN, DE</span>
       </div>
       <motion.div className="hero-main" style={{ y: reduced ? 0 : y }}>
-        <p className="eyebrow hero-identity">
-          <span className="sr-only">Engineer, Builder und Dad.</span>
-          <span aria-hidden="true" key={identity}>
-            {heroIdentities[identity]}
-          </span>
-        </p>
+        <p className="eyebrow">NETWORK ENGINEER · SOFTWARE DEVELOPMENT</p>
         <h1 id="hero-title">
           Ronny
           <br />
@@ -75,27 +57,17 @@ export function Hero() {
         </h1>
         <div className="hero-baseline">
           <p>
-            Netzwerke. Systeme.
+            Netzwerke, Infrastruktur
             <br />
-            <span className="serif lavender">Und immer eine neue Idee.</span>
+            und eigene Software.
           </p>
-          <span className="hero-coordinates" aria-hidden="true">
-            [ CONNECTING THE DOTS ]<br />
-            01 — ∞
-          </span>
         </div>
       </motion.div>
       <div className="hero-bottom">
         <a href="#me" className="scroll-link">
-          SCROLL TO EXPLORE <ArrowDown size={16} />
+          ÜBER MICH <ArrowDown size={16} />
         </a>
-        <span>Technik im Kopf. Mensch im Mittelpunkt.</span>
-      </div>
-      <div className="hero-orbit" aria-hidden="true">
-        <div />
-        <div />
-        <div />
-        <span>RB</span>
+        <span>Cisco · Collaboration · Operations</span>
       </div>
     </section>
   );
@@ -103,13 +75,12 @@ export function Hero() {
 export function About() {
   return (
     <section id="me" className="section about">
-      <Label number="01">ME</Label>
+      <Label number="01">ABOUT</Label>
       <div className="about-grid">
         <Reveal>
           <h2>{profile.greeting}</h2>
           <p className="lead">{profile.intro}</p>
           <p className="body-copy">{profile.story}</p>
-          <p className="body-copy">{profile.personal}</p>
           <div className="chips">
             {profile.chips.map((chip) => (
               <span key={chip}>{chip}</span>
@@ -118,10 +89,6 @@ export function About() {
         </Reveal>
         <Reveal className="portrait-frame" delay={0.15}>
           <Picture />
-          <div className="photo-note">
-            <span>Der Mensch hinter den Systemen.</span>
-            <span>↗</span>
-          </div>
         </Reveal>
       </div>
     </section>
@@ -138,14 +105,8 @@ export function Experience() {
     <section id="experience" className="section experience">
       <Label number="02">EXPERIENCE</Label>
       <Reveal>
-        <h2>
-          Ein Weg.
-          <br />
-          <span className="serif">Viele Perspektiven.</span>
-        </h2>
-        <p className="section-intro">
-          Von der Technik vor Ort bis zum Blick auf die gesamte Infrastruktur.
-        </p>
+        <h2>Beruflicher Werdegang.</h2>
+        <p className="section-intro">Deutsche Telekom · seit 2011</p>
       </Reveal>
       <Reveal className="experience-route">
         <div>
@@ -198,14 +159,10 @@ export function Expertise() {
   const [selected, setSelected] = useState(0);
   return (
     <section id="expertise" className="section expertise">
-      <Label number="03">WHAT I DO</Label>
+      <Label number="03">EXPERTISE</Label>
       <div className="expertise-layout">
         <div className="sticky-heading">
-          <h2>
-            Technik.
-            <br />
-            <span className="serif">Mit Zusammenhang.</span>
-          </h2>
+          <h2>Technische Schwerpunkte.</h2>
           <p className="section-intro">
             Mein Schwerpunkt liegt dort, wo Infrastruktur und Betrieb
             zusammenkommen.
@@ -252,57 +209,16 @@ export function Expertise() {
     </section>
   );
 }
-export function Approach() {
-  return (
-    <section id="approach" className="section approach">
-      <Label number="04">HOW I WORK</Label>
-      <Reveal>
-        <h2>
-          Eine Lösung endet nicht
-          <br />
-          <span className="serif">mit der Konfiguration.</span>
-        </h2>
-      </Reveal>
-      <div className="approach-grid">
-        {approach.map((step, i) => (
-          <Reveal delay={i * 0.12} key={step.name}>
-            <span className="step-index">
-              0{i + 1} {i < 2 && <ArrowRight size={22} />}
-            </span>
-            <h3>
-              {step.name}
-              <span>.</span>
-            </h3>
-            <h4>{step.verb}</h4>
-            <p>{step.text}</p>
-          </Reveal>
-        ))}
-      </div>
-      <p className="approach-after">
-        Und dann: beobachten, lernen, verbessern. <span>↻</span>
-      </p>
-    </section>
-  );
-}
 export function Projects() {
-  const own = projects.filter(
-    (p) => p.type.startsWith("OWN SOFTWARE") && p.slug !== "personal-website",
-  );
-  const engineering = projects.filter(
-    (p) => !p.type.startsWith("OWN SOFTWARE"),
-  );
+  const own = projects;
   return (
     <section id="projects" className="section projects">
-      <Label number="05">THINGS I'VE BUILT</Label>
+      <Label number="04">PROJECTS</Label>
       <Reveal className="project-intro">
-        <h2>
-          Aus Ideen
-          <br />
-          wird <span className="serif lavender">Praxis.</span>
-        </h2>
+        <h2>Eigene Software.</h2>
         <p>
-          Eigene Software. Und ausgewählte Einblicke in die Infrastrukturarbeit
-          dahinter.
+          Werkzeuge für technische Reviews, Security Advisories und
+          Software-Releases. Mit AI-Unterstützung entwickelt.
         </p>
       </Reveal>
       {own.map((project, i) => (
@@ -315,7 +231,7 @@ export function Projects() {
             <h3>{project.name}</h3>
             <p className="lead">{project.oneLiner}</p>
             <div className="project-problem">
-              <span>DIE IDEE DAHINTER</span>
+              <span>PROBLEM</span>
               <p>{project.problem}</p>
             </div>
             <div className="tags">
@@ -324,37 +240,12 @@ export function Projects() {
               ))}
             </div>
             <Link className="text-link" to={`/projects/${project.slug}`}>
-              Projekt entdecken <ArrowUpRight size={19} />
+              Technischer Einblick <ArrowUpRight size={19} />
             </Link>
           </div>
           <ProjectVisual project={project} />
         </Reveal>
       ))}
-      <p className="website-note">
-        Auch diese Website ist ein eigenes Projekt.{" "}
-        <Link className="text-link" to="/projects/personal-website">
-          Ein Blick hinter die Seite <ArrowUpRight size={15} />
-        </Link>
-      </p>
-      <div className="engineering-heading">
-        <span className="eyebrow">AUS DER PRAXIS</span>
-        <p>Infrastruktur ist auch etwas, das man baut.</p>
-      </div>
-      <div className="engineering-grid">
-        {engineering.map((p, i) => (
-          <Reveal key={p.slug} delay={i * 0.08}>
-            <Link to={`/projects/${p.slug}`} className="engineering-card">
-              <span className="eyebrow">{p.type}</span>
-              <Diagram project={p} compact />
-              <h3>{p.name}</h3>
-              <p>{p.oneLiner}</p>
-              <span className="text-link">
-                Einblick <ArrowUpRight size={17} />
-              </span>
-            </Link>
-          </Reveal>
-        ))}
-      </div>
     </section>
   );
 }
@@ -369,13 +260,24 @@ export function ProjectVisual({
     <div className="release-visual">
       <span className="eyebrow">RELEASE PORTAL</span>
       <span className="release-title">
-        Ordnung
+        Inventar.
         <br />
-        im Wandel<span>.</span>
+        Reviews.
+        <br />
+        Reporting.
       </span>
-      <span className="small-note">
-        Eigene Software · Einblick ohne Screenshot
-      </span>
+      <div
+        className="release-flow"
+        aria-label="Windmill synchronisiert Daten für den Review-Workspace und automatisiert Exporte"
+      >
+        <span>Windmill · Automatisierung</span>
+        <ArrowDown size={16} aria-hidden="true" />
+        <span>Review-Workspace</span>
+        <ArrowDown size={16} aria-hidden="true" />
+        <span>Reporting & Export</span>
+      </div>
+
+      <span className="small-note">Architekturüberblick · vereinfacht</span>
     </div>
   ) : (
     <Diagram project={project} />
@@ -401,7 +303,7 @@ function WatchtowerPreview() {
       </div>
       <div className="preview-content">
         <p className="eyebrow">ADVISORY INTELLIGENCE</p>
-        <h4>Alles im Blick.</h4>
+        <h4>Advisory-Übersicht</h4>
         <div className="preview-stats">
           <div>
             <span>Advisories</span>
@@ -440,13 +342,9 @@ function WatchtowerPreview() {
 export function Universe() {
   return (
     <section className="section universe" aria-labelledby="universe-title">
-      <Label number="06">TECH UNIVERSE</Label>
+      <div className="section-label">TECH / TOOLS</div>
       <Reveal>
-        <h2 id="universe-title">
-          Mein technisches
-          <br />
-          <span className="serif">Koordinatensystem.</span>
-        </h2>
+        <h2 id="universe-title">Technologien und Werkzeuge.</h2>
       </Reveal>
       <div className="universe-grid">
         {universe.map((group, i) => (
@@ -467,37 +365,25 @@ export function Universe() {
       </div>
       <div className="homelab">
         <div>
-          <span className="eyebrow">THE PLAYGROUND</span>
-          <h3>
-            Lokal ausprobieren.
-            <br />
-            Bewusst weiterdenken.
-          </h3>
+          <span className="eyebrow">LAB / AUTOMATION</span>
+          <h3>Software und Automatisierung.</h3>
           <p>
-            Watchtower läuft im Homelab. Ein Ansible-Lernlabor mit
-            Ubuntu-Containern bietet Raum für Automatisierung. Und RVoice bringt
-            lokale AI direkt auf den Mac.
+            Watchtower betreibe ich im lokalen Lab. Mit Ansible und
+            Ubuntu-Containern erprobe ich Automatisierung. AI unterstützt die
+            Entwicklung meiner eigenen Softwareprojekte.
           </p>
         </div>
         <div
           className="lab-diagram"
           role="img"
-          aria-label="Technische Spielwiese: Mac mit RVoice und Ansible, Docker-Container und Watchtower im Homelab. Ohne Netzwerkdetails."
+          aria-label="Lokales Ansible-Lernlabor mit Docker und Ubuntu sowie Watchtower im Homelab"
         >
-          <span>MAC · RVOICE / ANSIBLE</span>
-          <i>↓</i>
+          <span>ANSIBLE · AUTOMATION</span>
+          <i aria-hidden="true">↓</i>
           <span>DOCKER · UBUNTU LAB</span>
-          <i>↔</i>
+          <i aria-hidden="true">↓</i>
           <span>HOMELAB · WATCHTOWER</span>
         </div>
-      </div>
-      <div className="lab-note">
-        <span className="eyebrow">CURIOSITY DOESN'T CLOCK OUT.</span>
-        <p>
-          Auch abseits des Jobs probiere ich Ideen aus und baue eigene Software.
-          Nicht jeder Versuch wird ein Projekt. Aber jeder bringt mich ein Stück
-          weiter.
-        </p>
       </div>
     </section>
   );
@@ -505,25 +391,14 @@ export function Universe() {
 export function Beyond() {
   return (
     <section id="beyond" className="section beyond">
-      <Label number="07">BEYOND THE KEYBOARD</Label>
+      <Label number="05">BEYOND</Label>
       <div className="beyond-grid">
         <Reveal className="outdoor-frame">
           <Picture outdoor />
-          <span className="outdoor-caption">Mal eine andere Perspektive.</span>
         </Reveal>
         <Reveal className="beyond-copy">
-          <span className="eyebrow">HUSBAND. DAD ×2. HUMAN.</span>
-          <h2>
-            Das Leben
-            <br />
-            hat mehr
-            <br />
-            <span className="serif lavender">als einen Tab.</span>
-          </h2>
+          <h2>Abseits der Technik.</h2>
           <p className="lead">{profile.beyondText}</p>
-          <p className="body-copy">
-            Und die besten Momente brauchen meistens gar keinen Bildschirm.
-          </p>
         </Reveal>
       </div>
     </section>
@@ -533,14 +408,14 @@ export function Footer() {
   return (
     <footer className="footer">
       <div>
-        <p className="eyebrow">THAT'S ME.</p>
+        <p className="eyebrow">RONNY BRUNNER</p>
         <p className="footer-name">
           Ronny Brunner<span>.</span>
         </p>
-        <p>Network Engineer · Builder · Family Guy</p>
+        <p>Network & Infrastructure Engineer · Softwareentwicklung</p>
       </div>
       <div className="footer-bottom">
-        <span>Mit Neugier gebaut. Und noch lange nicht fertig.</span>
+        <span>Bremen, Deutschland</span>
         <a href="#top">
           Zurück nach oben <ArrowUpRight size={15} />
         </a>
@@ -554,7 +429,6 @@ export const sectionComponents = {
   me: About,
   experience: Experience,
   expertise: Expertise,
-  approach: Approach,
   projects: Projects,
   beyond: Beyond,
 };

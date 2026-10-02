@@ -58,3 +58,11 @@ Die eigene Rolle folgt der Nutzerangabe „Alle meine Projekte“. Keine alleini
 ## Standortkorrektur durch Ronny
 
 Ronny hat die Zuordnung ausdrücklich korrigiert: Ausbildung 2011–2014, Senior Fachkraft Technik 2014–2016 und Messe-/Eventmanagement 2016–2018 in Hamburg; Operations Manager II seit Juni 2018 in Bremen. Diese direkte Angabe hat Vorrang vor der Bremen-Angabe zur Ausbildung in der ursprünglichen DOCX. Die Website und der Präsentationsmodus wurden korrigiert; die Original-Lebenslaufdateien bleiben auf Wunsch unverändert. AI 2026 ist eine Weiterbildung ohne erfundenen Arbeitsort.
+
+## Korrekturpass Oktober 2026
+
+Die frühere öffentliche Auswahl ist durch den [Design-Pass-Bericht](design-pass-report.md) ersetzt. Nach Nutzerpräzisierung bleiben Release Portal und Watchtower als öffentliche Projekte. Windmill ist als Automatisierungsplattform angebunden; zusätzlich anhand `release-portal/docs/reviews/report-export-jobs.md` geprüft. RVoice, Website- und Infrastruktur-Projektkarten/Detailrouten werden nicht mehr öffentlich verwendet. Smart Dispatch bleibt vorerst weg. Die Timeline enthält ausschließlich die vier realen beruflichen Stationen; die AI-Weiterbildung von 2026 bleibt im Qualifikationsbereich. Keine neue datierte Projektstation ohne belastbare Quelle.
+
+## Presentation-Pass: aktuelle Quellenabgrenzung
+
+Der [Presentation-Pass](presentation-pass-report.md) verwendet vier Capability-Bereiche mit Quellenmetadaten (A/B). Networking, Collaboration, Security-Advisory-Bewertung und Operations/Lifecycle werden prominent gezeigt; Cisco UCS bleibt Plattformkontext. Die nicht belegten Battlecard-Produkte bleiben ausgeschlossen. Keine separate Battlecard-Datei gefunden. HOW I WORK entfällt vollständig aus der Anwendung; die Kapitelzahl beträgt fünf. Die berufliche Timeline bleibt unverändert.

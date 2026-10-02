@@ -13,7 +13,7 @@ export default function App() {
     new URLSearchParams(window.location.search).get("present") === "true";
   useEffect(() => {
     if (route === "/")
-      document.title = "Ronny Brunner — Network Engineer & Builder";
+      document.title = "Ronny Brunner — Network & Infrastructure Engineer";
     if (window.location.hash) {
       requestAnimationFrame(() =>
         document
@@ -49,7 +49,7 @@ export default function App() {
           <Home />
         ) : (
           <main id="main" className="section not-found">
-            <h1>Hier ist noch nichts gebaut.</h1>
+            <h1>Seite nicht gefunden.</h1>
             <a href={import.meta.env.BASE_URL}>Zur Startseite</a>
           </main>
         )}

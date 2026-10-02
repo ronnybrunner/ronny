@@ -40,13 +40,13 @@ npm run test:e2e
 - `scripts/routes.mjs`: erzeugt statische Einstiegspunkte für alle Projektseiten, `/present` und `/privacy` sowie eine 404-Fallback-Datei. Direktaufruf und Reload der bekannten Routen funktionieren dadurch auch auf GitHub Pages.
 - `tests/`: Vitest-Komponententests und Playwright-Smoke-Tests.
 
-Normale Kapitelnavigation verwendet native Anker. Die Präsentation unter `/present` oder `?present=true` nutzt dieselben Inhalte. Links/rechts wechseln Kapitel, `O` öffnet die Übersicht, `Escape` schließt die Übersicht beziehungsweise verlässt den Modus. Die Übersicht verlinkt Projekte direkt; Fullscreen ist optional.
+Normale Kapitelnavigation verwendet native Anker. Die Präsentation unter `/present` oder `?present=true` nutzt dieselben Inhalte. Links/rechts wechseln Kapitel, `0` (oder `O`) öffnet die Übersicht, `Escape` schließt die Übersicht beziehungsweise verlässt den Modus. Die Übersicht verlinkt Projekte direkt; Fullscreen ist optional.
 
 ## Inhalt und Datenschutz
 
-Keine Bewerbungsaufforderung, keine Skill-Prozente. Infrastrukturbeispiele sind anonymisiert; Bilder von Kundenanwendungen wurden nicht übernommen. Watchtower wird als **nachgestellte Ansicht mit Beispieldaten** dargestellt. Release Portal bleibt auf ausdrücklichen Wunsch ohne Screenshot. Die Family-Aufnahme wird ohne Freigabe nicht verwendet. Originale, Lebensläufe, lokale Adressen, Datenbanken und Secrets gehören nicht in Git und nicht in `dist`.
+Keine Bewerbungsaufforderung, keine Skill-Prozente. Der Projektbereich fokussiert Release Portal und Watchtower; Bilder von Kundenanwendungen wurden nicht übernommen. Watchtower wird als **nachgestellte Ansicht mit Beispieldaten** dargestellt. Release Portal bleibt auf ausdrücklichen Wunsch ohne Screenshot. Die Family-Aufnahme wird ohne Freigabe nicht verwendet. Originale, Lebensläufe, lokale Adressen, Datenbanken und Secrets gehören nicht in Git und nicht in `dist`.
 
-Die Website lädt keine externen Fonts, Analytics oder Remote-Anwendungen. Keine Anwendungs-Cookies und keine Formulare. Die Datenschutzseite beschreibt die technische Auslieferung. Vor einer öffentlichen Veröffentlichung Betreiber-/Hostingangaben und gegebenenfalls erforderliche rechtliche Angaben für die reale Domain ergänzen. Das Projekt liegt im öffentlichen Repository [ronnybrunner/ronny](https://github.com/ronnybrunner/ronny). Die Website wird unter [ronnybrunner.github.io/ronny](https://ronnybrunner.github.io/ronny/) über GitHub Pages ausgeliefert.
+Geist Sans und Geist Mono werden als variable WOFF2-Dateien lokal ausgeliefert; die SIL Open Font License 1.1 liegt in `public/fonts/OFL.txt`. Die Website lädt keine externen Fonts, Analytics oder Remote-Anwendungen. Keine Anwendungs-Cookies und keine Formulare. Die Datenschutzseite beschreibt die technische Auslieferung. Vor einer öffentlichen Veröffentlichung Betreiber-/Hostingangaben und gegebenenfalls erforderliche rechtliche Angaben für die reale Domain ergänzen. Das Projekt liegt im öffentlichen Repository [ronnybrunner/ronny](https://github.com/ronnybrunner/ronny). Die Website wird unter [ronnybrunner.github.io/ronny](https://ronnybrunner.github.io/ronny/) über GitHub Pages ausgeliefert.
 
 Bilder neu optimieren (Originale müssen lokal vorhanden sein): `node scripts/images.mjs`. Die Originaldateien werden nicht verändert. Sharp exportiert WebP ohne übernommene Metadaten.
 
@@ -72,3 +72,7 @@ Der Workflow folgt der [Vite-Dokumentation für GitHub Pages](https://vite.dev/g
 ## Quellen und Abschlussbericht
 
 [Content-Inventur](docs/content-inventory.md) enthält Quellen, Datenabgleich und bewusst ausgelassene Inhalte. [Abschlussbericht](docs/delivery-report.md) dokumentiert Prüfungen, Datenschutzentscheidungen und bekannte Grenzen.
+
+Der [Design-/Content-Pass](docs/design-pass-report.md) dokumentiert die aktuelle Typografie, den Quellenabgleich der beruflichen Timeline, die reduzierte Projektauswahl und die visuellen Prüfungen.
+
+Der aktuelle [Presentation-Pass](docs/presentation-pass-report.md) reduziert die Präsentation auf fünf Kapitel und ergänzt eine sofort lesbare Capability Map sowie eine eigene Portraitfolie. HOW I WORK entfällt auch aus der normalen Website.

@@ -5,7 +5,6 @@ import {
   About,
   Experience,
   Expertise,
-  Approach,
   Projects,
   Universe,
   Beyond,
@@ -27,7 +26,6 @@ export default function Home() {
         <About />
         <Experience />
         <Expertise />
-        <Approach />
         <Projects />
         <Universe />
         <Beyond />
