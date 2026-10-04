@@ -10,7 +10,7 @@ Folienwechsel verwenden `motion`, das bereits im Projekt installiert ist: 12 px 
 
 ## Berufliche Stationen
 
-Die 2×2-Karten wurden im Presentation Mode durch eine eigene SVG-Deutschlandkarte plus Stationsansicht ersetzt. Die Komponente liest weiterhin die vier Einträge aus `src/content/experience.ts` samt originalen Zeiträumen, Berufsbezeichnungen, Standorten und Kurzbeschreibungen. Hamburg und Bremen sind geografisch relativ zueinander eingezeichnet. Hamburg wählt die Ausbildung 2011; Bremen die Station ab 2018. Die vier Stationspunkte und die Schaltflächen Vor/Zurück wählen auch die Zwischenstationen 2014 und 2016. Globale Pfeiltasten wechseln weiter die Folien; die Station wechselt ausdrücklich per Klick.
+Die 2×2-Karten wurden im Presentation Mode durch eine eigene SVG-Deutschlandkarte plus Stationsansicht ersetzt. Der Umriss ist aus den [Natural Earth Admin 0 Countries](https://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-0-countries/) vereinfacht und auf das Kartenformat projiziert (Public Domain). Die Komponente liest weiterhin die vier Einträge aus `src/content/experience.ts` samt originalen Zeiträumen, Berufsbezeichnungen, Standorten und Kurzbeschreibungen. Hamburg und Bremen sind aus ihren Koordinaten geografisch korrekt relativ zueinander eingezeichnet. Hamburg wählt die Ausbildung 2011; Bremen die Station ab 2018. Die vier Stationspunkte und die Schaltflächen Vor/Zurück wählen auch die Zwischenstationen 2014 und 2016. Globale Pfeiltasten wechseln weiter die Folien; die Station wechselt ausdrücklich per Klick.
 
 ## Technische Schwerpunkte
 

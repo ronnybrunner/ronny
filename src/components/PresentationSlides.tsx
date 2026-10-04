@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { profile } from "../content/profile";
 import { experience } from "../content/experience";
+import { germanyOutline } from "../content/germany-outline";
 import type { Project } from "../content/projects";
 import { presentationCapabilities } from "../content/skills";
 import { Label } from "./Sections";
@@ -42,22 +43,15 @@ function GermanyMap({
   return (
     <svg
       className="germany-map"
-      viewBox="0 0 260 310"
+      viewBox="0 0 250 330"
       role="group"
       aria-label="Karte Deutschlands mit beruflichen Stationen in Hamburg und Bremen"
     >
-      <path
-        className="germany-outline"
-        d="M123 13 143 23 153 20 164 36 177 39 180 55 196 62 193 78 210 88 205 103 220 115 213 128 220 145 209 157 214 173 202 184 208 200 195 211 196 226 181 233 174 251 160 255 151 271 135 266 123 283 107 275 96 283 84 270 68 274 60 257 44 254 43 237 27 231 32 213 20 201 30 185 22 170 32 155 24 139 39 126 34 111 49 99 43 82 57 73 53 56 71 50 75 34 92 37 103 23 116 28Z"
-      />
-      <path
-        className="germany-north"
-        d="M61 58 119 39 174 51 193 81 169 113 108 115 60 95Z"
-      />
-      <path className="germany-route" d="M102 83 Q119 91 136 70" />
+      <path className="germany-outline" d={germanyOutline} />
+      <path className="germany-route" d="M85 87 Q98 82 114 68" />
       <g
         className={`map-marker ${activeCity === "Hamburg" ? "active" : ""}`}
-        transform="translate(136 70)"
+        transform="translate(114 68)"
         role="button"
         tabIndex={0}
         aria-label="Hamburg: Ausbildung ab 2011"
@@ -76,7 +70,7 @@ function GermanyMap({
       {bremenIndex >= 0 && (
         <g
           className={`map-marker ${activeCity === "Bremen" ? "active" : ""}`}
-          transform="translate(102 83)"
+          transform="translate(85 87)"
           role="button"
           tabIndex={0}
           aria-label="Bremen: aktuelle berufliche Station"
@@ -93,13 +87,13 @@ function GermanyMap({
           <circle className="map-marker-dot" r="4.5" />
         </g>
       )}
-      <text className="map-city-label" x="148" y="67">
+      <text className="map-city-label" x="126" y="65">
         Hamburg
       </text>
-      <text className="map-city-label" x="70" y="83">
+      <text className="map-city-label" x="51" y="87">
         Bremen
       </text>
-      <text className="map-country-label" x="129" y="170">
+      <text className="map-country-label" x="125" y="174">
         DE
       </text>
     </svg>
