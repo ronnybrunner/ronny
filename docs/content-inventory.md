@@ -66,3 +66,9 @@ Die frühere öffentliche Auswahl ist durch den [Design-Pass-Bericht](design-pas
 ## Presentation-Pass: aktuelle Quellenabgrenzung
 
 Der [Presentation-Pass](presentation-pass-report.md) verwendet vier Capability-Bereiche mit Quellenmetadaten (A/B). Networking, Collaboration, Security-Advisory-Bewertung und Operations/Lifecycle werden prominent gezeigt; Cisco UCS bleibt Plattformkontext. Die nicht belegten Battlecard-Produkte bleiben ausgeschlossen. Keine separate Battlecard-Datei gefunden. HOW I WORK entfällt vollständig aus der Anwendung; die Kapitelzahl beträgt fünf. Die berufliche Timeline bleibt unverändert.
+
+## Presentation V3 – 4. Oktober 2026
+
+Der [V3-Bericht](presentation-v3-report.md) ersetzt die vorige Fünf-Folien-Struktur durch sieben eigenständige Slides. Smart Dispatch wurde nach neuem Nutzerhinweis im geklonten `../Smart-Dispatch` gefunden und anhand von README, `.csproj`-Dateien und `docs/smart-release.md` geprüft. Öffentlich werden nur allgemeine Problem-/Lösungsbeschreibungen und eine abstrahierte Architektur gezeigt; keine interne Software, Quelldateien, Originaldaten oder Freigabeclaims. WinUI 3/C#/.NET 8, SQLite, WebView2, Outlook COM und ClosedXML sind belegt. Smart-Release-Reports sind Exporte, kein automatischer Outlook-Versand.
+
+Ronny hat Desktop-Aufnahmen von Watchtower und Release Portal ausdrücklich zur Verwendung freigegeben. Sie werden ohne lokale Adressen, Firmenbranding, Kunden-/Gerätekennungen und Desktop-Elemente eingebunden. Die normale Homepage-Auswahl bleibt bei den beiden bisherigen Projekten; die Präsentation und der Detailkatalog ergänzen Smart Dispatch. Die zunächst eingeschränkte Sitzung wurde anschließend freigegeben. V3 ist inzwischen in Chromium mit allen sieben Folien in fünf Desktopgrößen visuell und geometrisch geprüft; Ergebnisse stehen im V3-Bericht. Die Screenshot-Auswahl stammt aus den freigegebenen Desktop-Aufnahmen.

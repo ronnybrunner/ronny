@@ -4,12 +4,13 @@ import {
   fireEvent,
   waitFor,
   within,
+  act,
 } from "@testing-library/react";
-import { describe, it, expect, beforeEach } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import App from "../src/App";
 import { Navigation } from "../src/components/Navigation";
 import { Expertise, Experience } from "../src/components/Sections";
-import { projects } from "../src/content/projects";
+import { projectCatalog, projects } from "../src/content/projects";
 describe("Portfolio", () => {
   beforeEach(() => window.history.replaceState({}, "", "/"));
   it("verlinkt die fokussierte Softwareauswahl und die Windmill-Anbindung", () => {
@@ -75,14 +76,14 @@ describe("Portfolio", () => {
   it("bedient Präsentation mit Pfeilen und Escape", async () => {
     window.history.replaceState({}, "", "/present");
     render(<App />);
-    await screen.findByRole("button", { name: "Nächstes Kapitel" });
+    await screen.findByRole("button", { name: "Nächste Folie" });
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByText("02 / 05 — EXPERIENCE")).toBeInTheDocument();
+    expect(screen.getByText("02 / 07 — EXPERIENCE")).toBeInTheDocument();
     fireEvent.keyDown(window, { key: "0" });
     expect(
       screen.getByRole("heading", { name: "Kapitelübersicht" }),
     ).toBeInTheDocument();
-    fireEvent.keyDown(window, { key: "Escape" });
+    fireEvent.keyDown(window, { key: "0" });
     expect(
       screen.queryByRole("heading", { name: "Kapitelübersicht" }),
     ).not.toBeInTheDocument();
@@ -92,12 +93,12 @@ describe("Portfolio", () => {
   it("zeigt alle vier Capability-Bereiche ohne Accordion und entfernt die Marketingfolie", async () => {
     window.history.replaceState({}, "", "/present");
     render(<App />);
-    await screen.findByRole("button", { name: "Nächstes Kapitel" });
+    await screen.findByRole("button", { name: "Nächste Folie" });
     expect(document.querySelector(".presentation-header .wordmark")).toBeNull();
-    expect(document.querySelectorAll(".chapter-dots button")).toHaveLength(5);
+    expect(document.querySelectorAll(".chapter-dots button")).toHaveLength(7);
     fireEvent.keyDown(window, { key: "ArrowRight" });
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByText("03 / 05 — EXPERTISE")).toBeInTheDocument();
+    expect(screen.getByText("03 / 07 — EXPERTISE")).toBeInTheDocument();
     const slide = document.querySelector(".capability-slide") as HTMLElement;
     expect(within(slide).getAllByRole("article")).toHaveLength(4);
     expect(within(slide).queryByRole("button")).not.toBeInTheDocument();
@@ -112,13 +113,88 @@ describe("Portfolio", () => {
       within(slide).queryByText(/Firepower|Zabbix|Webex/),
     ).not.toBeInTheDocument();
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByText("04 / 05 — PROJECTS")).toBeInTheDocument();
+    expect(screen.getByText("04 / 07 — RELEASE PORTAL")).toBeInTheDocument();
     fireEvent.keyDown(window, { key: "0" });
     expect(screen.queryByText("PLAN BUILD RUN")).not.toBeInTheDocument();
-    expect(document.querySelectorAll(".chapter-grid button")).toHaveLength(5);
+    expect(document.querySelectorAll(".chapter-grid button")).toHaveLength(7);
+  });
+  it("zeigt drei eigenständige Projektfolien mit gemeinsamen Inhaltsdaten", async () => {
+    window.history.replaceState({}, "", "/present");
+    render(<App />);
+    await screen.findByRole("button", { name: "Nächste Folie" });
+    for (let i = 0; i < 3; i++)
+      fireEvent.keyDown(window, { key: "ArrowRight" });
+    for (const project of projectCatalog) {
+      expect(
+        screen.getByRole("heading", { name: `${project.name}.` }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText(project.presentation.problem),
+      ).toBeInTheDocument();
+      expect(document.querySelectorAll(".project-slide")).toHaveLength(1);
+      expect(
+        screen.getByRole("link", { name: "Technischer Einblick ↗" }),
+      ).toHaveAttribute("href", `/projects/${project.slug}`);
+      fireEvent.keyDown(window, { key: "ArrowRight" });
+    }
+    expect(screen.getByText("07 / 07 — BEYOND")).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Nächste Folie" }),
+    ).toBeDisabled();
+  });
+  it("zeigt vier echte Experience-Stationen als Karten statt Timeline", async () => {
+    window.history.replaceState({}, "", "/present");
+    render(<App />);
+    await screen.findByRole("button", { name: "Nächste Folie" });
+    fireEvent.keyDown(window, { key: "ArrowRight" });
+    expect(document.querySelectorAll(".career-panel")).toHaveLength(4);
+    expect(document.querySelector(".timeline")).toBeNull();
+    expect(document.querySelector(".experience-route")).toBeNull();
+    expect(screen.getByText("Seit 06/2018")).toBeInTheDocument();
+    expect(screen.queryByText("AI Hobby")).not.toBeInTheDocument();
+  });
+  it("beendet Fullscreen vor dem Escape-Ausstieg aus der Übersicht", async () => {
+    window.history.replaceState({}, "", "/present");
+    let resolveExit!: () => void;
+    const pendingExit = new Promise<void>((resolve) => {
+      resolveExit = resolve;
+    });
+    const exitFullscreen = vi.fn(() => pendingExit);
+    const oldElement = Object.getOwnPropertyDescriptor(
+      document,
+      "fullscreenElement",
+    );
+    const oldExit = Object.getOwnPropertyDescriptor(document, "exitFullscreen");
+    Object.defineProperty(document, "fullscreenElement", {
+      configurable: true,
+      value: document.documentElement,
+    });
+    Object.defineProperty(document, "exitFullscreen", {
+      configurable: true,
+      value: exitFullscreen,
+    });
+    try {
+      render(<App />);
+      await screen.findByRole("button", { name: "Nächste Folie" });
+      fireEvent.keyDown(window, { key: "0" });
+      fireEvent.keyDown(window, { key: "Escape" });
+      expect(exitFullscreen).toHaveBeenCalledOnce();
+      expect(window.location.pathname).toBe("/present");
+      await act(async () => {
+        resolveExit();
+        await pendingExit;
+      });
+      await waitFor(() => expect(window.location.pathname).toBe("/"));
+    } finally {
+      if (oldElement)
+        Object.defineProperty(document, "fullscreenElement", oldElement);
+      else Reflect.deleteProperty(document, "fullscreenElement");
+      if (oldExit) Object.defineProperty(document, "exitFullscreen", oldExit);
+      else Reflect.deleteProperty(document, "exitFullscreen");
+    }
   });
   it("enthält keine lokale Adresse oder personenbezogenen Kontaktdaten in Projektinhalten", () => {
-    const serialized = JSON.stringify(projects);
+    const serialized = JSON.stringify(projectCatalog);
     expect(serialized).not.toMatch(
       /192\.168\.|https?:\/\/|@posteo|\+49|token|credential/i,
     );

@@ -19,7 +19,7 @@ export const capabilities: Capability[] = [
       "Routing & Switching",
       "LAN / WLAN",
       "Campus Networks",
-      "Meraki / SD-WAN",
+      "Meraki / SD-WAN / AutoVPN",
     ],
     evidence: "A",
     source:
@@ -46,9 +46,9 @@ export const capabilities: Capability[] = [
       "Security Advisories und Softwarestände bewerten, Maßnahmen ableiten.",
     topics: [
       "Cisco Security Advisories",
-      "Softwarestände",
-      "Technischer Handlungsbedarf",
-      "Upgrade-Maßnahmen",
+      "Cisco Software Releases",
+      "Cisco EoX / End-of-Life",
+      "Upgrade- & Austauschplanung",
     ],
     evidence: "A",
     source:

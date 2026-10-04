@@ -1,6 +1,8 @@
 export const experience = [
   {
     year: "2011",
+    summary:
+      "IT- und Kommunikationsinfrastruktur in der Ausbildung bei der Deutschen Telekom.",
     period: "09/2011 – 02/2014",
     city: "Hamburg",
     title: "Ausbildung",
@@ -9,6 +11,8 @@ export const experience = [
   },
   {
     year: "2014",
+    summary:
+      "Anschlüsse bereitstellen, Kundenequipment konfigurieren und Störungen beheben.",
     period: "02/2014 – 01/2016",
     city: "Hamburg",
     title: "Privatkundentechnik",
@@ -17,6 +21,8 @@ export const experience = [
   },
   {
     year: "2016",
+    summary:
+      "Temporäre LAN-, WLAN- und Kommunikationsdienste für Veranstaltungen planen, aufbauen und betreuen.",
     period: "01/2016 – 07/2018",
     city: "Hamburg",
     title: "Messe- und Eventinfrastruktur",
@@ -25,6 +31,8 @@ export const experience = [
   },
   {
     year: "2018",
+    summary:
+      "Cisco-Infrastruktur im 2nd- und 3rd-Level betreuen; Kunden beraten und Release- und Lifecycle-Maßnahmen begleiten.",
     period: "Seit 06/2018",
     city: "Bremen",
     title: "Network & Infrastructure Services",

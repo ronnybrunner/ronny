@@ -1,5 +1,5 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
-import { projects } from "../src/content/projects.ts";
+import { projectCatalog as projects } from "../src/content/projects.ts";
 const html = await readFile("dist/index.html", "utf8");
 const paths = [
   "present",

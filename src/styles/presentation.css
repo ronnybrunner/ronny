@@ -1,0 +1,560 @@
+/* The deck owns its layout. The scrolling portfolio keeps its existing styles. */
+.presentation {
+  --presentation-top: 64px;
+  --presentation-bottom: 64px;
+  --deck-gutter: clamp(32px, 4vw, 100px);
+  --deck-pad: clamp(24px, 3.3svh, 48px);
+  --deck-gap: clamp(20px, 2.4svh, 36px);
+  --deck-title: clamp(44px, 5.8svh, 64px);
+  --deck-body: clamp(19px, 2.22svh, 24px);
+  --deck-secondary: clamp(17px, 1.75svh, 19px);
+  height: 100svh;
+  min-height: 0;
+  padding: var(--presentation-top) 0 var(--presentation-bottom);
+  display: flex;
+  flex-direction: column;
+}
+.presentation > main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+.presentation-header {
+  height: var(--presentation-top);
+  padding: 0 var(--deck-gutter);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+}
+.presentation-header > span {
+  font-size: 13px;
+  white-space: nowrap;
+  max-width: none;
+}
+.presentation-header > div {
+  gap: 8px;
+}
+.presentation .icon-button {
+  width: 40px;
+  height: 40px;
+  color: var(--light);
+}
+.presentation .icon-button svg {
+  width: 19px;
+  height: 19px;
+}
+.presentation-controls {
+  height: var(--presentation-bottom);
+  gap: 24px;
+  padding: 0 var(--deck-gutter);
+}
+.chapter-dots {
+  gap: 12px;
+}
+.chapter-dots button {
+  width: 28px;
+  height: 32px;
+}
+.chapter-dots button:after {
+  width: 6px;
+  height: 6px;
+  inset: 13px 11px;
+  background: #72727e;
+}
+.chapter-dots button.active:after {
+  width: 9px;
+  height: 9px;
+  inset: 11.5px 9.5px;
+}
+.presentation .keyboard-hint {
+  font-size: 12px;
+  margin-left: 20px;
+}
+.presentation .deck-slide {
+  width: 100%;
+  max-width: 2400px;
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+  padding: var(--deck-pad) var(--deck-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--deck-gap);
+}
+.presentation .section-label {
+  font-size: 14px;
+  margin: 0 0 14px;
+  letter-spacing: 0.07em;
+}
+.presentation .deck-heading h2,
+.presentation .personal-copy h2 {
+  font-size: var(--deck-title);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+.presentation .personal-slide {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: clamp(32px, 4vw, 80px);
+  align-items: center;
+}
+.presentation .personal-copy {
+  max-width: 900px;
+}
+.presentation .personal-copy .lead {
+  font-size: clamp(24px, 2.7svh, 30px);
+  line-height: 1.55;
+  margin: 32px 0 24px;
+  max-width: 780px;
+}
+.presentation .personal-copy .body-copy {
+  font-size: clamp(20px, 2.15svh, 23px);
+  line-height: 1.65;
+  max-width: 820px;
+}
+.presentation-location {
+  margin-top: 28px;
+  font-size: 13px;
+}
+.presentation-portrait,
+.presentation-outdoor {
+  width: min(100%, calc((100svh - 210px) * 0.8));
+  max-width: 680px;
+  justify-self: end;
+}
+.presentation-portrait img,
+.presentation-outdoor img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: center;
+  border-radius: clamp(28px, 2vw, 36px);
+  border: 1px solid #ffffff0c;
+  box-shadow: 0 24px 70px #0002;
+}
+.presentation-outdoor img {
+  object-position: center 45%;
+}
+.presentation .beyond-slide {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+}
+.presentation .beyond-slide .lead {
+  max-width: 770px;
+}
+.career-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--deck-gap);
+}
+.career-panel {
+  min-width: 0;
+  padding: clamp(20px, 2.6svh, 36px);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--secondary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.career-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.career-meta > span:last-child {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+.career-year {
+  font-size: clamp(34px, 4.4svh, 48px);
+  line-height: 1;
+  font-weight: 450;
+  letter-spacing: -0.045em;
+}
+.career-year small {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+.career-period {
+  font-family: var(--mono);
+  color: var(--muted);
+  font-size: 14px;
+  margin-top: 12px;
+  line-height: 1.3;
+}
+.career-panel h3 {
+  font-size: clamp(24px, 2.8svh, 32px);
+  line-height: 1.2;
+  font-weight: 500;
+  margin-top: 20px;
+  max-width: 800px;
+}
+.career-description {
+  font-size: var(--deck-body);
+  line-height: 1.45;
+  color: var(--light);
+  margin-top: 18px;
+}
+.presentation .capability-slide {
+  gap: 20px;
+}
+.presentation .capability-grid {
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.presentation .capability-panel {
+  padding: clamp(20px, 2.4svh, 30px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.presentation .capability-panel h3 {
+  font-family: var(--mono);
+  font-size: 16px;
+  gap: 14px;
+  line-height: 1.3;
+}
+.presentation .capability-panel p {
+  margin-top: 12px;
+  font-size: var(--deck-secondary);
+  line-height: 1.4;
+  max-width: 760px;
+}
+.presentation .capability-panel ul {
+  font-size: var(--deck-body);
+  margin-top: 18px;
+  gap: 10px 24px;
+  line-height: 1.4;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.presentation .capability-environment {
+  padding-top: 14px;
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+}
+.presentation .capability-environment .eyebrow {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.presentation .capability-environment p {
+  font-size: var(--deck-secondary);
+  margin: 0;
+}
+.project-slide-grid {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+  align-items: center;
+  gap: clamp(32px, 4vw, 80px);
+}
+.project-slide-copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(18px, 2.4svh, 28px);
+}
+.project-slide-intro {
+  font-size: clamp(24px, 2.6svh, 28px);
+  line-height: 1.4;
+  font-weight: 450;
+}
+.project-slide-story {
+  display: grid;
+  gap: 18px;
+}
+.project-slide-story h3 {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 450;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.project-slide-story p {
+  font-size: var(--deck-body);
+  line-height: 1.45;
+  color: var(--light);
+}
+.project-slide-features {
+  padding-left: 20px;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+  font-size: var(--deck-secondary);
+  line-height: 1.45;
+  color: var(--light);
+}
+.project-slide-features li::marker {
+  color: var(--muted);
+}
+.project-slide-stack .eyebrow {
+  font-size: 13px;
+}
+.project-slide-stack p {
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1.6;
+  margin-top: 8px;
+  color: var(--light);
+}
+.project-slide-footnote {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+.project-slide-footnote .text-link {
+  font-size: 15px;
+  color: var(--lavender);
+}
+.project-slide-visual {
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.project-slide-visual img {
+  width: 100%;
+  max-height: calc(100svh - 300px);
+  object-fit: contain;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--secondary);
+}
+.project-slide-visual figcaption {
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.4;
+}
+.project-slide-visual .diagram {
+  min-height: 0;
+  height: min(620px, calc(100svh - 330px));
+  padding: 28px;
+  border-radius: 16px;
+}
+.project-slide-visual .diagram-node {
+  font-size: 17px;
+}
+.project-slide-visual .diagram-nodes {
+  max-width: 520px;
+}
+.project-slide-visual .diagram-symbol {
+  margin: 20px 0;
+}
+.project-slide-visual .diagram-symbol svg {
+  width: 44px;
+  height: 44px;
+}
+.project-slide-visual .diagram-symbol > span {
+  font-size: 18px;
+}
+.project-slide-visual .diagram-caption {
+  display: none;
+}
+.project-slide-visual .diagram-top {
+  font-size: 12px;
+}
+.presentation .chapter-overview {
+  height: 100%;
+  min-height: 0;
+  padding: var(--deck-pad) var(--deck-gutter);
+  display: flex;
+  flex-direction: column;
+  gap: var(--deck-gap);
+}
+.presentation .chapter-overview h1 {
+  font-size: var(--deck-title);
+  margin: 0;
+}
+.presentation .chapter-grid {
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+.presentation .chapter-grid button {
+  padding: 28px;
+  gap: 16px;
+  border-radius: 16px;
+  justify-content: center;
+}
+.presentation .chapter-grid span {
+  font-size: 14px;
+}
+.presentation .chapter-grid strong {
+  font-size: clamp(20px, 2.7svh, 30px);
+}
+.presentation .chapter-grid small {
+  font-size: 17px;
+}
+@media (max-height: 850px) and (min-width: 761px) {
+  .presentation {
+    --presentation-top: 56px;
+    --presentation-bottom: 56px;
+    --deck-pad: 22px;
+    --deck-gap: 20px;
+    --deck-title: 46px;
+    --deck-body: 19px;
+    --deck-secondary: 17px;
+  }
+  .presentation .section-label {
+    margin-bottom: 10px;
+    font-size: 13px;
+  }
+  .career-panel {
+    padding: 18px 24px;
+  }
+  .career-period {
+    margin-top: 8px;
+    font-size: 13px;
+  }
+  .career-panel h3 {
+    margin-top: 12px;
+    font-size: 24px;
+  }
+  .career-description {
+    margin-top: 12px;
+    font-size: 18px;
+  }
+  .presentation .capability-slide {
+    gap: 14px;
+  }
+  .presentation .capability-grid {
+    gap: 16px;
+  }
+  .presentation .capability-panel {
+    padding: 18px 24px;
+  }
+  .presentation .capability-panel h3 {
+    font-size: 14px;
+  }
+  .presentation .capability-panel p {
+    margin-top: 8px;
+    font-size: 16px;
+  }
+  .presentation .capability-panel ul {
+    margin-top: 12px;
+    gap: 6px 18px;
+    font-size: 19px;
+  }
+  .presentation .capability-environment {
+    padding-top: 10px;
+  }
+  .project-slide-copy {
+    gap: 12px;
+  }
+  .project-slide-intro {
+    font-size: 22px;
+  }
+  .project-slide-story {
+    gap: 12px;
+  }
+  .project-slide-story > div {
+    display: grid;
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 12px;
+    align-items: baseline;
+  }
+  .project-slide-story p {
+    font-size: 18px;
+  }
+  .project-slide-story h3 {
+    margin-bottom: 6px;
+  }
+  .project-slide-features {
+    font-size: 16px;
+    gap: 6px;
+  }
+  .project-slide-stack p {
+    font-size: 13px;
+    margin-top: 6px;
+  }
+  .project-slide-footnote {
+    font-size: 12px;
+  }
+  .project-slide-footnote .text-link {
+    font-size: 14px;
+  }
+  .presentation .personal-copy .lead {
+    font-size: 26px;
+    margin: 26px 0 22px;
+  }
+  .presentation .personal-copy .body-copy {
+    font-size: 20px;
+  }
+  .project-slide-visual .diagram {
+    padding: 20px;
+  }
+  .project-slide-visual .diagram-node {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+  .project-slide-visual .diagram-symbol {
+    margin: 12px 0;
+    gap: 8px;
+  }
+  .project-slide-visual .diagram-symbol svg {
+    width: 30px;
+    height: 30px;
+  }
+}
+/* A portrait phone cannot carry a readable 16:9 deck. Keep the normal portfolio
+   available there instead of hiding or clipping slide content. */
+.presentation-size-notice {
+  display: none;
+}
+@media (max-width: 760px), (max-height: 560px) {
+  .presentation > main {
+    display: none;
+  }
+  .presentation-size-notice {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 24px;
+  }
+  .presentation-size-notice h1 {
+    font-size: 32px;
+  }
+  .presentation-size-notice p {
+    font-size: 18px;
+    max-width: 500px;
+  }
+  .presentation-size-notice a {
+    color: var(--lavender);
+    font-size: 18px;
+  }
+  .presentation-controls {
+    display: none;
+  }
+  .presentation-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 16px;
+  }
+  .presentation-header > span {
+    display: none;
+  }
+  .presentation-header > div {
+    gap: 8px;
+  }
+}

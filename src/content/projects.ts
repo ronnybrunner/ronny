@@ -11,11 +11,34 @@ export interface Project {
   result: string;
   role: string;
   status: string;
+  presentation: {
+    intro: string;
+    problem: string;
+    solution: string;
+    highlights: string[];
+    image?: { src: string; alt: string; caption: string };
+  };
   kind: "campus" | "uc" | "lifecycle" | "website";
 }
-export const projects: Project[] = [
+export const projectCatalog: Project[] = [
   {
     slug: "release-portal",
+    presentation: {
+      intro: "Bestand, Lifecycle und Reviews in einem Workspace.",
+      problem:
+        "Inventar, Advisories und Softwarestände für regelmäßige Reviews zusammenführen.",
+      solution:
+        "Bewertungen, Reporting und Exporte in einem Workspace mit Windmill-Automatisierung.",
+      highlights: [
+        "Security-, Bug- und Lifecycle-Reviews",
+        "Windmill-Jobs für Synchronisation und Export",
+      ],
+      image: {
+        src: "release-portal-workspace.webp",
+        alt: "Echte Release-Portal-Oberfläche: Lifecycle-Verteilung für Hardware und Software; Ausschnitt ohne Kunden- oder Gerätekennungen",
+        caption: "Echte Produktoberfläche · Ausschnitt, Stand Oktober 2026",
+      },
+    },
     name: "Release Portal",
     type: "OWN SOFTWARE · LIFECYCLE WORKSPACE",
     oneLiner:
@@ -52,6 +75,23 @@ export const projects: Project[] = [
   },
   {
     slug: "watchtower",
+    presentation: {
+      intro: "Herstellerinformationen mit nachvollziehbaren Änderungen.",
+      problem:
+        "Advisories und Releases verteilen sich auf unterschiedliche Herstellerquellen.",
+      solution:
+        "Connectoren erfassen öffentliche Quellen; Revisionen dokumentieren Änderungen.",
+      highlights: [
+        "Cisco-, Fortinet-, Broadcom- und F5-Connectoren",
+        "Quelldokumente, Revisionen und Wiederverarbeitung",
+      ],
+      image: {
+        src: "watchtower-advisories.webp",
+        alt: "Echte Watchtower-Oberfläche mit öffentlichen Hersteller-Advisories und nachvollziehbaren Revisionen",
+        caption:
+          "Echte Produktoberfläche · öffentliche Herstellerdaten, Oktober 2026",
+      },
+    },
     name: "Watchtower",
     type: "OWN SOFTWARE · ADVISORY INTELLIGENCE",
     oneLiner:
@@ -86,4 +126,55 @@ export const projects: Project[] = [
     status: "Im lokalen Lab betrieben · aktive Weiterentwicklung",
     kind: "website",
   },
+  {
+    slug: "smart-dispatch",
+    name: "Smart Dispatch",
+    type: "OWN SOFTWARE · WINDOWS DESKTOP",
+    oneLiner: "Betriebsmeldungen vorbereiten, prüfen und an Outlook übergeben.",
+    problem:
+      "Wiederkehrende Meldungen brauchen konsistente Vorlagen, strukturierte Stammdaten und nachvollziehbare Abläufe.",
+    approach:
+      "Eine Windows-Desktop-App verbindet Templates, Validierung und HTML-Vorschau mit lokaler Datenhaltung. Outlook COM übernimmt Mail-Entwürfe und Kalendertermine. Das separate Smart-Release-Modul ergänzt Bestands- und Lifecycle-Verwaltung sowie Excel- und PDF-Exporte; dessen Reports werden manuell versendet.",
+    architecture: [
+      "WinUI 3 · Meldung & Vorschau",
+      "C# / .NET 8 · Validierung & Templates",
+      "SQLite · Lokale Datenhaltung",
+      "Outlook COM · Entwürfe & Kalender",
+    ],
+    stack: [
+      "C#",
+      ".NET 8",
+      "WinUI 3",
+      "SQLite",
+      "WebView2",
+      "Outlook COM",
+      "ClosedXML",
+    ],
+    features: [
+      "Templates, Validierung und HTML-Vorschau",
+      "Outlook-Entwürfe, Kalender und Meldungshistorie",
+      "Smart Release: Bestand, Lifecycle, Excel-/PDF-Export",
+    ],
+    result:
+      "Die WinUI-3-Implementierung bündelt Meldungsworkflows und lokale Datenhaltung. Smart Release ergänzt strukturierte Bestandsverwaltung und Reports. Aus dem Repository wird keine produktive Freigabe abgeleitet.",
+    role: "Eigenes Softwareprojekt, mit AI-Unterstützung entwickelt.",
+    status: "WinUI-3-Implementierung · in Weiterentwicklung",
+    kind: "website",
+    presentation: {
+      intro: "Strukturierte Betriebsmeldungen direkt vom Windows-Desktop.",
+      problem:
+        "Betriebsmeldungen konsistent erstellen und Arbeitsschritte nachvollziehen.",
+      solution:
+        "Templates, Vorschau und Outlook COM; Smart Release für Bestand und Reports.",
+      highlights: [
+        "Outlook-Entwürfe und Kalendertermine",
+        "Smart Release: Excel- und PDF-Exporte",
+      ],
+    },
+  },
 ];
+// Keep the normal homepage's selected projects unchanged. All detail pages and
+// presentation slides use the same catalog, including the desktop project.
+export const projects = projectCatalog.filter(
+  (project) => project.slug !== "smart-dispatch",
+);

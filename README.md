@@ -40,7 +40,7 @@ npm run test:e2e
 - `scripts/routes.mjs`: erzeugt statische Einstiegspunkte für alle Projektseiten, `/present` und `/privacy` sowie eine 404-Fallback-Datei. Direktaufruf und Reload der bekannten Routen funktionieren dadurch auch auf GitHub Pages.
 - `tests/`: Vitest-Komponententests und Playwright-Smoke-Tests.
 
-Normale Kapitelnavigation verwendet native Anker. Die Präsentation unter `/present` oder `?present=true` nutzt dieselben Inhalte. Links/rechts wechseln Kapitel, `0` (oder `O`) öffnet die Übersicht, `Escape` schließt die Übersicht beziehungsweise verlässt den Modus. Die Übersicht verlinkt Projekte direkt; Fullscreen ist optional.
+Normale Kapitelnavigation verwendet native Anker. Die Präsentation unter `/present` oder `?present=true` nutzt dieselben Inhalte. Links/rechts wechseln die sieben Folien, `0` (oder `O`) öffnet/schließt die Übersicht, `Escape` verlässt die Präsentation und beendet zuvor gegebenenfalls Fullscreen. Die Übersicht wählt Folien direkt; Fullscreen ist optional. Die normale Website behält ihre fünf Kapitel. Kleine Displays erhalten einen Link zur normalen Website statt abgeschnittener Folien.
 
 ## Inhalt und Datenschutz
 
@@ -75,4 +75,4 @@ Der Workflow folgt der [Vite-Dokumentation für GitHub Pages](https://vite.dev/g
 
 Der [Design-/Content-Pass](docs/design-pass-report.md) dokumentiert die aktuelle Typografie, den Quellenabgleich der beruflichen Timeline, die reduzierte Projektauswahl und die visuellen Prüfungen.
 
-Der aktuelle [Presentation-Pass](docs/presentation-pass-report.md) reduziert die Präsentation auf fünf Kapitel und ergänzt eine sofort lesbare Capability Map sowie eine eigene Portraitfolie. HOW I WORK entfällt auch aus der normalen Website.
+Der aktuelle [Presentation-Pass V3](docs/presentation-v3-report.md) verwendet sieben eigenständige Folien mit eigenen Layouts, vier Experience-Karten und drei Einzelprojektfolien. HOW I WORK bleibt entfernt. `node scripts/audit-presentation.mjs` erzeugt bei laufender Vorschau die vollständige Screenshot-Serie und prüft die Inhaltsgeometrie; Die Browser-Abnahme ist abgeschlossen. Bei belegtem Standardport kann `PLAYWRIGHT_PORT=4174 npm run test:e2e` verwendet werden; für den Audit dann `PRESENTATION_AUDIT_URL=http://127.0.0.1:4174` setzen.

@@ -16,30 +16,38 @@ test("native Navigation, Projekt und Zurücklink", async ({ page }) => {
   await page.getByRole("link", { name: "Alle Projekte" }).click();
   await expect(page).toHaveURL(/#projects$/);
 });
-test("Präsentation, Kapitelwahl, Tastatur und Ausstieg", async ({ page }) => {
+test("Präsentation, Folienwahl, Tastatur und Ausstieg", async ({
+  page,
+}, testInfo) => {
+  test.skip(
+    testInfo.project.name !== "desktop",
+    "Die Präsentation benötigt ein Desktopfenster",
+  );
   await page.goto("/present");
   await expect(
-    page.getByRole("button", { name: "Vorheriges Kapitel" }),
+    page.getByRole("button", { name: "Vorherige Folie" }),
   ).toBeDisabled();
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByText("02 / 05 — EXPERIENCE")).toBeVisible();
+  await expect(page.getByText("02 / 07 — EXPERIENCE")).toBeVisible();
   await page.keyboard.press("0");
-  await page.getByRole("button", { name: /04 PROJECTS/ }).click();
+  await expect(page.locator(".chapter-grid button")).toHaveCount(7);
+  await page.getByRole("button", { name: /04 RELEASE PORTAL/ }).click();
   await expect(
-    page.getByRole("heading", { name: "Watchtower", exact: true }),
+    page.getByRole("heading", { name: "Release Portal.", exact: true }),
   ).toBeVisible();
-  await page.evaluate(() =>
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "instant",
-    }),
-  );
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByText("05 / 07 — WATCHTOWER")).toBeVisible();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByText("06 / 07 — SMART DISPATCH")).toBeVisible();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByText("07 / 07 — BEYOND")).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Nächste Folie" }),
+  ).toBeDisabled();
+  await page.keyboard.press("ArrowLeft");
   await page.keyboard.press("0");
-  await expect(
-    page.getByRole("heading", { name: "Kapitelübersicht" }),
-  ).toBeVisible();
-  expect(await page.evaluate(() => window.scrollY)).toBe(0);
-  await page.keyboard.press("Escape");
+  await page.keyboard.press("0");
+  await expect(page.getByText("06 / 07 — SMART DISPATCH")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page).toHaveURL(/\/#projects$/);
 });
@@ -68,7 +76,7 @@ test("Reduced Motion, Mobile-Menü und keine Überbreite", async ({ page }) => {
 test("alle Detailseiten laden direkt ohne Laufzeitfehler", async ({ page }) => {
   const errors: string[] = [];
   page.on("pageerror", (error) => errors.push(error.message));
-  for (const slug of ["watchtower", "release-portal"]) {
+  for (const slug of ["watchtower", "release-portal", "smart-dispatch"]) {
     await page.goto(`/projects/${slug}/`);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(
@@ -102,8 +110,10 @@ test("Tastaturzugang und sehr kleine Displays", async ({ page }) => {
     "/present",
   ]) {
     await page.goto(route);
-    await expect(page.locator("main")).toBeVisible();
     await expect(page.locator(".loading")).toHaveCount(0);
+    if (route === "/present")
+      await expect(page.locator(".presentation-size-notice")).toBeVisible();
+    else await expect(page.locator("main")).toBeVisible();
     await page.evaluate(() => document.fonts.ready);
     expect(
       await page.evaluate(
@@ -126,73 +136,134 @@ test("Tastaturzugang und sehr kleine Displays", async ({ page }) => {
   }
 });
 
-test("Capability Map passt ohne Scrollen zwischen die Präsentationsleisten", async ({
+test("Alle sieben Folien passen ohne Scrollen zwischen die Navigationsleisten", async ({
   page,
 }, testInfo) => {
   test.skip(
     testInfo.project.name !== "desktop",
-    "Desktop-Geometrie; Mobile darf scrollen",
+    "Die Präsentation benötigt ein Desktopfenster",
   );
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  for (const [width, height] of [
-    [1920, 1080],
-    [2560, 1440],
-    [1440, 900],
-    [1366, 768],
-    [1280, 720],
-  ]) {
-    await page.setViewportSize({ width, height });
-    await page.goto("/present");
-    await expect(page.getByText("01 / 05 — ME")).toBeVisible();
-    await expect(page.locator(".presentation-header .wordmark")).toHaveCount(0);
-    await expect(page.locator(".chapter-dots button")).toHaveCount(5);
-    await page.keyboard.press("ArrowRight");
-    await expect(page.getByText("02 / 05 — EXPERIENCE")).toBeVisible();
-    await page.evaluate(() => document.fonts.ready);
-    expect(
-      await page.evaluate(
-        () =>
-          document.querySelector(".timeline-stations")!.getBoundingClientRect()
-            .bottom <
-          document
+  test.setTimeout(90_000);
+  const labels = [
+    "ME",
+    "EXPERIENCE",
+    "EXPERTISE",
+    "RELEASE PORTAL",
+    "WATCHTOWER",
+    "SMART DISPATCH",
+    "BEYOND",
+  ];
+  for (const reducedMotion of ["reduce", "no-preference"] as const) {
+    await page.emulateMedia({ reducedMotion });
+    for (const [width, height] of [
+      [1920, 1080],
+      [2560, 1440],
+      [1440, 900],
+      [1366, 768],
+      [1280, 720],
+    ]) {
+      await page.setViewportSize({ width, height });
+      await page.goto("/present");
+      await expect(page.locator(".chapter-dots button")).toHaveCount(7);
+      await expect(page.locator(".presentation-header a")).toHaveCount(0);
+      for (const [index, label] of labels.entries()) {
+        await expect(
+          page.getByText(`0${index + 1} / 07 — ${label}`),
+        ).toBeVisible();
+        await page.evaluate(() => document.fonts.ready);
+        await page
+          .locator(".deck-slide img")
+          .evaluateAll((images) =>
+            Promise.all(
+              images.map((img) => (img as HTMLImageElement).decode()),
+            ),
+          );
+        const geometry = await page.evaluate(() => {
+          const top = document
+            .querySelector(".presentation-header")!
+            .getBoundingClientRect().bottom;
+          const bottom = document
             .querySelector(".presentation-controls")!
-            .getBoundingClientRect().top,
-      ),
-    ).toBe(true);
-    await page.keyboard.press("ArrowRight");
-    await expect(page.getByText("03 / 05 — EXPERTISE")).toBeVisible();
-    await expect(page.locator(".capability-panel")).toHaveCount(4);
-    await expect(page.locator(".capability-slide button")).toHaveCount(0);
-    await page.evaluate(() => document.fonts.ready);
-    for (const topic of [
-      "Cisco Catalyst",
-      "CUCM",
-      "Cisco Security Advisories",
-      "Release Management",
-      "TECHNOLOGIEUMFELD",
-    ])
-      await expect(page.getByText(topic, { exact: true })).toBeVisible();
-    const geometry = await page.evaluate(() => {
-      const top = document
-        .querySelector(".presentation-header")!
-        .getBoundingClientRect().bottom;
-      const bottom = document
-        .querySelector(".presentation-controls")!
-        .getBoundingClientRect().top;
-      const content = [
-        ...document.querySelectorAll(
-          ".capability-slide h2,.capability-panel,.capability-panel li,.capability-environment",
+            .getBoundingClientRect().top;
+          const elements = [
+            ...document.querySelectorAll(
+              ".deck-slide h2,.deck-slide h3,.deck-slide p,.deck-slide li,.deck-slide img,.deck-slide figcaption,.deck-slide .eyebrow,.deck-slide .text-link,.career-year,.career-period",
+            ),
+          ];
+          const outside = elements
+            .filter((el) => {
+              const r = el.getBoundingClientRect();
+              return (
+                r.top < top - 1 ||
+                r.bottom > bottom + 1 ||
+                r.right > innerWidth + 1
+              );
+            })
+            .map((el) => el.textContent || el.getAttribute("alt"));
+          // Scroll height catches content exceeding panels even when the slide itself is fixed.
+          const clipped = [
+            ...document.querySelectorAll(
+              ".deck-slide,.career-panel,.capability-panel,.project-slide-copy",
+            ),
+          ]
+            .filter((el) => el.scrollHeight > el.clientHeight + 1)
+            .map((el) => el.className);
+          return {
+            outside,
+            clipped,
+            noScroll: document.documentElement.scrollHeight <= innerHeight,
+            noOverflow: document.documentElement.scrollWidth <= innerWidth,
+          };
+        });
+        expect(
+          geometry,
+          `${width}×${height}: ${label} (${reducedMotion})`,
+        ).toEqual({
+          outside: [],
+          clipped: [],
+          noScroll: true,
+          noOverflow: true,
+        });
+        if (index < labels.length - 1) await page.keyboard.press("ArrowRight");
+      }
+      await page.keyboard.press("0");
+      await expect(page.locator(".chapter-grid button")).toHaveCount(7);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollHeight <= innerHeight,
         ),
-      ].map((el) => el.getBoundingClientRect());
-      const header = document
-        .querySelector(".presentation-header > span")!
-        .getBoundingClientRect();
-      return {
-        fits: content.every((r) => r.top >= top && r.bottom <= bottom),
-        noScroll: document.documentElement.scrollHeight <= innerHeight,
-        centered: Math.abs(header.left + header.width / 2 - innerWidth / 2) < 1,
-      };
-    });
-    expect(geometry).toEqual({ fits: true, noScroll: true, centered: true });
+      ).toBe(true);
+    }
   }
+});
+
+test("Vollbild wird vor dem Präsentationsausstieg beendet", async ({
+  page,
+}, testInfo) => {
+  test.skip(testInfo.project.name !== "desktop", "Desktop-Vollbild");
+  await page.goto("/present");
+  await page.getByRole("button", { name: "Vollbild umschalten" }).click();
+  await expect
+    .poll(() => page.evaluate(() => !!document.fullscreenElement))
+    .toBe(true);
+  await page.getByRole("button", { name: "Präsentation beenden" }).click();
+  await expect(page).toHaveURL(/\/#me$/);
+  await expect
+    .poll(() => page.evaluate(() => !!document.fullscreenElement))
+    .toBe(false);
+});
+
+test("Kleine Displays erhalten einen zugänglichen Weg zur normalen Website", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/present");
+  await expect(
+    page.getByRole("heading", { name: "Mehr Platz für die Präsentation." }),
+  ).toBeVisible();
+  await expect(page.locator(".presentation-controls")).toBeHidden();
+  await page.getByRole("link", { name: "Zur Website ↗" }).click();
+  await expect(
+    page.getByRole("heading", { name: "Moin, ich bin Ronny." }),
+  ).toBeVisible();
 });

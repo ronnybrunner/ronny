@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
-import { projects } from "../content/projects";
+import { projectCatalog as projects } from "../content/projects";
 import { Navigation } from "../components/Navigation";
 import { Link } from "../components/Link";
 import { Reveal } from "../components/Reveal";

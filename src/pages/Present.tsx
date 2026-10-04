@@ -6,13 +6,16 @@ import {
   useState,
 } from "react";
 import { ArrowLeft, ArrowRight, Grid2X2, Maximize, X } from "lucide-react";
-import { chapters } from "../content/profile";
-import { projects } from "../content/projects";
-import { sectionComponents } from "../components/Sections";
+import { presentationSlides as slides } from "../content/presentation";
+import { projectCatalog as projects } from "../content/projects";
 import {
   PresentationAboutSlide,
   PresentationExpertiseSlide,
+  PresentationExperienceSlide,
+  PresentationProjectSlide,
+  PresentationBeyondSlide,
 } from "../components/PresentationSlides";
+import "../styles/presentation.css";
 import { Link } from "../components/Link";
 import { navigate } from "../hooks/useRoute";
 export default function Present() {
@@ -21,11 +24,20 @@ export default function Present() {
   const [fullscreenError, setFullscreenError] = useState("");
   const heading = useRef<HTMLDivElement>(null);
   const exit = useCallback(() => {
-    if (document.fullscreenElement) void document.exitFullscreen();
-    navigate(`/#${chapters[index].id}`);
+    const leave = async () => {
+      try {
+        if (document.fullscreenElement) await document.exitFullscreen();
+        navigate(`/#${slides[index].chapter}`);
+      } catch {
+        setFullscreenError(
+          "Vollbild konnte nicht beendet werden. Bitte verlasse es über die Browsersteuerung.",
+        );
+      }
+    };
+    void leave();
   }, [index]);
   const move = useCallback((n: number) => {
-    setIndex((i) => Math.max(0, Math.min(chapters.length - 1, i + n)));
+    setIndex((i) => Math.max(0, Math.min(slides.length - 1, i + n)));
     setOverview(false);
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
@@ -50,8 +62,8 @@ export default function Present() {
         move(-1);
       }
       if (e.key === "Escape") {
-        if (overview) setOverview(false);
-        else exit();
+        e.preventDefault();
+        exit();
       }
       if (e.key === "0" || e.key.toLowerCase() === "o") {
         e.preventDefault();
@@ -65,13 +77,19 @@ export default function Present() {
     heading.current?.focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [index, overview]);
-  const chapter = chapters[index];
-  const Section =
-    chapter.id === "me"
-      ? PresentationAboutSlide
-      : chapter.id === "expertise"
-        ? PresentationExpertiseSlide
-        : sectionComponents[chapter.id as keyof typeof sectionComponents];
+  const chapter = slides[index];
+  const project = projects.find((p) => p.slug === chapter.id);
+  const content = project ? (
+    <PresentationProjectSlide project={project} number={index + 1} />
+  ) : chapter.id === "me" ? (
+    <PresentationAboutSlide />
+  ) : chapter.id === "experience" ? (
+    <PresentationExperienceSlide />
+  ) : chapter.id === "expertise" ? (
+    <PresentationExpertiseSlide />
+  ) : (
+    <PresentationBeyondSlide number={index + 1} />
+  );
   async function fullscreen() {
     try {
       if (document.fullscreenElement) await document.exitFullscreen();
@@ -87,7 +105,7 @@ export default function Present() {
     <div className="presentation">
       <header className="presentation-header">
         <span aria-live="polite">
-          0{index + 1} / 0{chapters.length} — {chapter.label}
+          0{index + 1} / 0{slides.length} — {chapter.label}
         </span>
         <div>
           <button
@@ -125,7 +143,7 @@ export default function Present() {
           <div className="chapter-overview">
             <h1>Kapitelübersicht</h1>
             <div className="chapter-grid">
-              {chapters.map((c, i) => (
+              {slides.map((c, i) => (
                 <button
                   key={c.id}
                   onClick={() => {
@@ -140,19 +158,23 @@ export default function Present() {
                 </button>
               ))}
             </div>
-            <h2>Direkt zu einem Projekt</h2>
-            <div className="present-project-links">
-              {projects.map((p) => (
-                <Link key={p.slug} to={`/projects/${p.slug}`}>
-                  {p.name} ↗
-                </Link>
-              ))}
-            </div>
           </div>
         ) : (
-          <Section />
+          content
         )}
       </main>
+      <aside
+        className="presentation-size-notice"
+        aria-label="Präsentation auf größeren Bildschirmen"
+      >
+        <h1>Mehr Platz für die Präsentation.</h1>
+        <p>
+          Öffne die Folien in einem größeren Fenster oder auf einem
+          Desktop-Bildschirm. Auf kleinen Displays findest du alle Inhalte auf
+          der Website.
+        </p>
+        <Link to="/">Zur Website ↗</Link>
+      </aside>
       {fullscreenError && (
         <p className="fullscreen-error" role="status">
           {fullscreenError}
@@ -163,17 +185,17 @@ export default function Present() {
           className="icon-button"
           disabled={index === 0}
           onClick={() => move(-1)}
-          aria-label="Vorheriges Kapitel"
+          aria-label="Vorherige Folie"
         >
           <ArrowLeft />
         </button>
         <div className="chapter-dots">
-          {chapters.map((c, i) => (
+          {slides.map((c, i) => (
             <button
               key={c.id}
               className={i === index ? "active" : ""}
               aria-current={i === index ? "step" : undefined}
-              aria-label={`Kapitel ${i + 1}: ${c.title}`}
+              aria-label={`Folie ${i + 1}: ${c.title}`}
               onClick={() => {
                 setIndex(i);
                 setOverview(false);
@@ -183,13 +205,13 @@ export default function Present() {
           ))}
         </div>
         <span className="keyboard-hint">
-          ← → Kapitel · 0 Übersicht · ESC Ende
+          ← → Folien · 0 Übersicht · ESC Ende
         </span>
         <button
           className="icon-button"
-          disabled={index === chapters.length - 1}
+          disabled={index === slides.length - 1}
           onClick={() => move(1)}
-          aria-label="Nächstes Kapitel"
+          aria-label="Nächste Folie"
         >
           <ArrowRight />
         </button>
