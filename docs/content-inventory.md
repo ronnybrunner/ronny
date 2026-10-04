@@ -61,11 +61,11 @@ Ronny hat die Zuordnung ausdrücklich korrigiert: Ausbildung 2011–2014, Senior
 
 ## Korrekturpass Oktober 2026
 
-Die frühere öffentliche Auswahl ist durch den [Design-Pass-Bericht](design-pass-report.md) ersetzt. Nach Nutzerpräzisierung bleiben Release Portal und Watchtower als öffentliche Projekte. Windmill ist als Automatisierungsplattform angebunden; zusätzlich anhand `release-portal/docs/reviews/report-export-jobs.md` geprüft. RVoice, Website- und Infrastruktur-Projektkarten/Detailrouten werden nicht mehr öffentlich verwendet. Smart Dispatch bleibt vorerst weg. Die Timeline enthält ausschließlich die vier realen beruflichen Stationen; die AI-Weiterbildung von 2026 bleibt im Qualifikationsbereich. Keine neue datierte Projektstation ohne belastbare Quelle.
+Die frühere öffentliche Auswahl ist durch den [Design-Pass-Bericht](design-pass-report.md) ersetzt. Release Portal und Watchtower bleiben die hervorgehobenen Projekte; Windmill ist als Automatisierungsplattform angebunden. Smart Dispatch bleibt als Projekt auf der normalen Website und wird nicht als Präsentationsfolie gezeigt. RVoice, Website- und Infrastruktur-Projektkarten/Detailrouten werden nicht öffentlich verwendet. Die Timeline enthält ausschließlich die vier realen beruflichen Stationen; die AI-Weiterbildung von 2026 bleibt im Qualifikationsbereich. Keine neue datierte Projektstation ohne belastbare Quelle.
 
 ## Presentation-Pass: aktuelle Quellenabgrenzung
 
-Der [Presentation-Pass](presentation-pass-report.md) verwendet vier Capability-Bereiche mit Quellenmetadaten (A/B). Networking, Collaboration, Security-Advisory-Bewertung und Operations/Lifecycle werden prominent gezeigt; Cisco UCS bleibt Plattformkontext. Die nicht belegten Battlecard-Produkte bleiben ausgeschlossen. Keine separate Battlecard-Datei gefunden. HOW I WORK entfällt vollständig aus der Anwendung; die Kapitelzahl beträgt fünf. Die berufliche Timeline bleibt unverändert.
+Der aktuelle [Presentation-Pass V4](presentation-v4-report.md) verwendet sechs kompakte Kompetenzfelder, davon Development & Automation sowie Cisco UCS als gekennzeichneten Projektplattform-Kontext. Die aktuellen sechs Folien verwenden eine interaktive Karte für die vier belegten beruflichen Stationen. Keine separate Battlecard-Datei gefunden; unbelegte Produkte und Hersteller werden nicht als persönliche Erfahrung dargestellt. HOW I WORK entfällt vollständig aus der Anwendung; die normale Website behält fünf Kapitel.
 
 ## Presentation V3 – 4. Oktober 2026
 

@@ -78,7 +78,8 @@ describe("Portfolio", () => {
     render(<App />);
     await screen.findByRole("button", { name: "Nächste Folie" });
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByText("02 / 07 — EXPERIENCE")).toBeInTheDocument();
+    expect(screen.getByText("02 / 06 — EXPERIENCE")).toBeInTheDocument();
+    await screen.findByRole("heading", { name: "Beruflicher Werdegang" });
     fireEvent.keyDown(window, { key: "0" });
     expect(
       screen.getByRole("heading", { name: "Kapitelübersicht" }),
@@ -90,41 +91,48 @@ describe("Portfolio", () => {
     fireEvent.keyDown(window, { key: "Escape" });
     await waitFor(() => expect(window.location.pathname).toBe("/"));
   });
-  it("zeigt alle vier Capability-Bereiche ohne Accordion und entfernt die Marketingfolie", async () => {
+  it("zeigt sechs Kompetenzfelder und sechs Folien ohne Smart Dispatch", async () => {
     window.history.replaceState({}, "", "/present");
     render(<App />);
     await screen.findByRole("button", { name: "Nächste Folie" });
     expect(document.querySelector(".presentation-header .wordmark")).toBeNull();
-    expect(document.querySelectorAll(".chapter-dots button")).toHaveLength(7);
+    expect(document.querySelectorAll(".chapter-dots button")).toHaveLength(6);
     fireEvent.keyDown(window, { key: "ArrowRight" });
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByText("03 / 07 — EXPERTISE")).toBeInTheDocument();
+    expect(screen.getByText("03 / 06 — EXPERTISE")).toBeInTheDocument();
+    await screen.findByText("DEVELOPMENT & AUTOMATION");
     const slide = document.querySelector(".capability-slide") as HTMLElement;
-    expect(within(slide).getAllByRole("article")).toHaveLength(4);
+    expect(within(slide).getAllByRole("article")).toHaveLength(6);
     expect(within(slide).queryByRole("button")).not.toBeInTheDocument();
     for (const topic of [
       "Cisco Catalyst",
       "CUCM",
       "Cisco Security Advisories",
       "Release Management",
+      "Windmill · Python / Bash · Linux",
+      "Cisco UCS · Projektplattform",
     ])
       expect(within(slide).getByText(topic)).toBeInTheDocument();
     expect(
       within(slide).queryByText(/Firepower|Zabbix|Webex/),
     ).not.toBeInTheDocument();
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByText("04 / 07 — RELEASE PORTAL")).toBeInTheDocument();
+    expect(screen.getByText("04 / 06 — RELEASE PORTAL")).toBeInTheDocument();
     fireEvent.keyDown(window, { key: "0" });
     expect(screen.queryByText("PLAN BUILD RUN")).not.toBeInTheDocument();
-    expect(document.querySelectorAll(".chapter-grid button")).toHaveLength(7);
+    expect(screen.queryByText("SMART DISPATCH")).not.toBeInTheDocument();
+    expect(document.querySelectorAll(".chapter-grid button")).toHaveLength(6);
   });
-  it("zeigt drei eigenständige Projektfolien mit gemeinsamen Inhaltsdaten", async () => {
+  it("zeigt Release Portal und Watchtower als eigenständige Projektfolien", async () => {
     window.history.replaceState({}, "", "/present");
     render(<App />);
     await screen.findByRole("button", { name: "Nächste Folie" });
     for (let i = 0; i < 3; i++)
       fireEvent.keyDown(window, { key: "ArrowRight" });
-    for (const project of projectCatalog) {
+    await screen.findByRole("heading", { name: "Release Portal." });
+    for (const project of projectCatalog.filter(
+      (item) => item.slug !== "smart-dispatch",
+    )) {
       expect(
         screen.getByRole("heading", { name: `${project.name}.` }),
       ).toBeInTheDocument();
@@ -136,20 +144,31 @@ describe("Portfolio", () => {
         screen.getByRole("link", { name: "Technischer Einblick ↗" }),
       ).toHaveAttribute("href", `/projects/${project.slug}`);
       fireEvent.keyDown(window, { key: "ArrowRight" });
+      if (project.slug === "release-portal")
+        await screen.findByRole("heading", { name: "Watchtower." });
     }
-    expect(screen.getByText("07 / 07 — BEYOND")).toBeInTheDocument();
+    expect(screen.getByText("06 / 06 — BEYOND")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: "Nächste Folie" }),
     ).toBeDisabled();
   });
-  it("zeigt vier echte Experience-Stationen als Karten statt Timeline", async () => {
+  it("zeigt vier echte Experience-Stationen interaktiv auf der Standortkarte", async () => {
     window.history.replaceState({}, "", "/present");
     render(<App />);
     await screen.findByRole("button", { name: "Nächste Folie" });
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(document.querySelectorAll(".career-panel")).toHaveLength(4);
-    expect(document.querySelector(".timeline")).toBeNull();
-    expect(document.querySelector(".experience-route")).toBeNull();
+    await screen.findByRole("button", { name: "2011: Hamburg" });
+    expect(document.querySelector(".germany-map")).toBeInTheDocument();
+    expect(screen.getByText("2011")).toBeInTheDocument();
+    fireEvent.click(screen.getByRole("button", { name: "Nächste Station" }));
+    expect(await screen.findByText("2014")).toBeInTheDocument();
+    expect(document.querySelector(".career-stage-kicker")).toHaveTextContent(
+      "HAMBURG · STATION 02",
+    );
+    fireEvent.click(screen.getByRole("button", { name: "2018: Bremen" }));
+    expect(document.querySelector(".career-stage-kicker")).toHaveTextContent(
+      "BREMEN · STATION 04",
+    );
     expect(screen.getByText("Seit 06/2018")).toBeInTheDocument();
     expect(screen.queryByText("AI Hobby")).not.toBeInTheDocument();
   });

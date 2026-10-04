@@ -20,6 +20,11 @@
   display: flex;
   flex-direction: column;
 }
+.presentation-transition-frame {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
 .presentation-header {
   height: var(--presentation-top);
   padding: 0 var(--deck-gutter);
@@ -93,8 +98,8 @@
 }
 .presentation .personal-slide {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-  gap: clamp(32px, 4vw, 80px);
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  gap: clamp(24px, 2.8vw, 56px);
   align-items: center;
 }
 .presentation .personal-copy {
@@ -119,7 +124,26 @@
 .presentation-outdoor {
   width: min(100%, calc((100svh - 210px) * 0.8));
   max-width: 680px;
-  justify-self: end;
+  justify-self: center;
+  position: relative;
+  isolation: isolate;
+}
+.presentation-about-copy {
+  animation: presentation-copy-enter 380ms 60ms ease-out both;
+}
+.presentation-about-slide .presentation-portrait {
+  animation: portrait-enter 500ms ease-out both;
+}
+.presentation-portrait::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8% -5%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, #b9a7ff 0%, #b9a7ff00 70%);
+  opacity: 0.1;
+  filter: blur(56px);
+  pointer-events: none;
 }
 .presentation-portrait img,
 .presentation-outdoor img {
@@ -148,6 +172,247 @@
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: var(--deck-gap);
+}
+.career-map-layout {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(32px, 7vw, 120px);
+  align-items: center;
+  padding: 0 clamp(16px, 4vw, 64px);
+}
+.career-map-panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.germany-map {
+  display: block;
+  width: min(100%, 350px);
+  max-height: 47svh;
+  overflow: visible;
+}
+.germany-outline {
+  fill: #111115;
+  stroke: #34333e;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+.germany-north {
+  fill: #b9a7ff;
+  opacity: 0.035;
+}
+.germany-route {
+  fill: none;
+  stroke: #777480;
+  stroke-width: 1.5;
+  stroke-dasharray: 4 5;
+  opacity: 0.7;
+}
+.map-marker {
+  cursor: pointer;
+  outline: none;
+}
+.map-marker-hit {
+  fill: transparent;
+}
+.map-marker-dot {
+  fill: #777480;
+  stroke: #101014;
+  stroke-width: 2;
+  transition: fill 220ms ease;
+}
+.map-marker.active .map-marker-dot {
+  fill: #b9a7ff;
+  animation: map-pulse 2.2s ease-out infinite;
+}
+.map-marker:focus-visible .map-marker-dot {
+  stroke: #fff;
+  stroke-width: 2.5;
+}
+.map-city-label,
+.map-country-label {
+  fill: #9997a3;
+  font:
+    12px "Geist Mono",
+    ui-monospace,
+    monospace;
+}
+.map-city-label {
+  fill: #bdbbc5;
+}
+.map-country-label {
+  fill: #777480;
+  font-size: 18px;
+  text-anchor: middle;
+  opacity: 0.6;
+}
+.map-location-legend {
+  display: flex;
+  gap: 24px;
+  margin-top: 4px;
+}
+.map-location-legend button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #9997a3;
+  font:
+    14px "Geist Mono",
+    ui-monospace,
+    monospace;
+  background: none;
+  border: 0;
+  padding: 8px 0;
+  cursor: pointer;
+}
+.map-location-legend button.active {
+  color: var(--light);
+}
+.map-location-legend button > span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #777480;
+}
+.map-location-legend button.active > span {
+  background: #b9a7ff;
+}
+.career-stage-panel {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(24px, 3vw, 48px);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: #111115;
+}
+.career-stage-content {
+  animation: stage-enter 260ms ease-out both;
+}
+.career-stage-kicker,
+.career-stage-period {
+  font:
+    14px "Geist Mono",
+    ui-monospace,
+    monospace;
+  color: #a6a3b0;
+  letter-spacing: 0.04em;
+}
+.career-stage-kicker span {
+  color: var(--lavender);
+  padding: 0 5px;
+}
+.career-stage-year {
+  font-size: clamp(62px, 9svh, 100px);
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-weight: 450;
+  margin: 22px 0 12px;
+}
+.career-stage-panel h3 {
+  font-size: clamp(27px, 3.2svh, 36px);
+  line-height: 1.22;
+  font-weight: 500;
+  margin-top: 26px;
+  max-width: 800px;
+}
+.career-stage-description {
+  color: #c3c1ca;
+  font-size: var(--deck-body);
+  line-height: 1.5;
+  margin-top: 16px;
+  max-width: 760px;
+}
+.career-stage-footer {
+  margin-top: clamp(24px, 4svh, 46px);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.career-stage-dots {
+  display: flex;
+  gap: 12px;
+}
+.career-stage-dots button {
+  width: 26px;
+  height: 26px;
+  border: 0;
+  background: radial-gradient(circle, #72727e 0 3px, transparent 3.5px);
+  cursor: pointer;
+}
+.career-stage-dots button.active {
+  background: radial-gradient(circle, #b9a7ff 0 4px, transparent 4.5px);
+}
+.career-stage-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.career-stage-actions button {
+  color: var(--light);
+  font-size: 15px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #ffffff04;
+  padding: 11px 16px;
+  cursor: pointer;
+}
+.career-stage-actions button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.career-stage-actions button:last-child {
+  border-color: #b9a7ff55;
+}
+.career-stage-actions button span {
+  color: var(--lavender);
+  padding-left: 7px;
+}
+@keyframes map-pulse {
+  0% {
+    filter: drop-shadow(0 0 0 #b9a7ff00);
+  }
+  50% {
+    filter: drop-shadow(0 0 8px #b9a7ff55);
+  }
+  100% {
+    filter: drop-shadow(0 0 0 #b9a7ff00);
+  }
+}
+@keyframes stage-enter {
+  from {
+    opacity: 0;
+    transform: translateY(7px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes portrait-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes presentation-copy-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .career-panel {
   min-width: 0;
@@ -208,6 +473,36 @@
 .presentation .capability-grid {
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 20px;
+}
+.presentation .capability-grid-six {
+  flex: 1;
+  min-height: 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 1.7vw, 24px);
+}
+.presentation .capability-grid-six .capability-panel {
+  justify-content: center;
+  padding: clamp(15px, 2svh, 24px);
+}
+.presentation .capability-grid-six .capability-panel h3 {
+  font-size: clamp(13px, 1.25svh, 15px);
+  gap: 9px;
+}
+.presentation .capability-grid-six .capability-panel h3 span {
+  color: var(--lavender);
+}
+.presentation .capability-grid-six .capability-panel p {
+  font-size: clamp(14px, 1.5svh, 17px);
+  line-height: 1.35;
+  margin-top: 9px;
+}
+.presentation .capability-grid-six .capability-panel ul {
+  grid-template-columns: 1fr;
+  font-size: clamp(16px, 1.8svh, 20px);
+  line-height: 1.32;
+  gap: 6px;
+  margin-top: 12px;
 }
 .presentation .capability-panel {
   padding: clamp(20px, 2.4svh, 30px);
@@ -420,6 +715,39 @@
   .career-panel {
     padding: 18px 24px;
   }
+  .career-map-layout {
+    gap: clamp(24px, 5vw, 72px);
+  }
+  .germany-map {
+    max-height: 42svh;
+  }
+  .career-stage-panel {
+    padding: 24px 32px;
+  }
+  .career-stage-year {
+    font-size: clamp(56px, 8svh, 78px);
+    margin: 14px 0 8px;
+  }
+  .career-stage-panel h3 {
+    margin-top: 18px;
+    font-size: 27px;
+  }
+  .career-stage-footer {
+    margin-top: 24px;
+    gap: 12px;
+  }
+  .presentation .capability-grid-six .capability-panel {
+    padding: 14px 18px;
+  }
+  .presentation .capability-grid-six .capability-panel p {
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  .presentation .capability-grid-six .capability-panel ul {
+    font-size: 16px;
+    gap: 4px;
+    margin-top: 8px;
+  }
   .career-period {
     margin-top: 8px;
     font-size: 13px;
@@ -512,6 +840,37 @@
   .project-slide-visual .diagram-symbol svg {
     width: 30px;
     height: 30px;
+  }
+}
+@media (max-width: 1200px) and (min-width: 761px) {
+  .career-map-layout {
+    grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+    gap: 24px;
+    padding: 0;
+  }
+  .presentation .capability-grid-six .capability-panel h3 {
+    font-size: 12px;
+  }
+  .presentation .capability-grid-six .capability-panel p {
+    font-size: 13px;
+  }
+  .presentation .capability-grid-six .capability-panel ul {
+    font-size: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-marker.active .map-marker-dot,
+  .career-stage-content {
+    animation-duration: 0.01ms;
+    animation-iteration-count: 1;
+  }
+  .map-marker-dot {
+    transition-duration: 0.01ms;
+  }
+  .presentation-about-copy,
+  .presentation-about-slide .presentation-portrait {
+    animation-duration: 0.01ms;
+    animation-delay: 0ms;
   }
 }
 /* A portrait phone cannot carry a readable 16:9 deck. Keep the normal portfolio

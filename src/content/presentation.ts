@@ -1,4 +1,8 @@
-import { projectCatalog as projects } from "./projects";
+import { projectCatalog } from "./projects";
+
+const featuredProjects = projectCatalog.filter((project) =>
+  ["release-portal", "watchtower"].includes(project.slug),
+);
 
 // Slides are independent of the normal site's five chapter anchors.
 // Project slides share the same verified project model and map back to PROJECTS.
@@ -16,7 +20,7 @@ export const presentationSlides = [
     label: "EXPERTISE",
     title: "Technische Schwerpunkte",
   },
-  ...projects.map((project) => ({
+  ...featuredProjects.map((project) => ({
     id: project.slug,
     chapter: "projects",
     label: project.name.toUpperCase(),

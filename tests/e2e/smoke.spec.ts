@@ -28,26 +28,43 @@ test("Präsentation, Folienwahl, Tastatur und Ausstieg", async ({
     page.getByRole("button", { name: "Vorherige Folie" }),
   ).toBeDisabled();
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByText("02 / 07 — EXPERIENCE")).toBeVisible();
+  await expect(page.getByText("02 / 06 — EXPERIENCE")).toBeVisible();
+  await expect(page.locator(".presentation-transition-frame")).toHaveCSS(
+    "opacity",
+    "1",
+  );
+  await page.getByRole("button", { name: "Nächste Station" }).click();
+  await expect(page.locator(".career-stage-year")).toHaveText("2014");
+  await page.getByRole("button", { name: "2016: Hamburg" }).click();
+  await expect(page.locator(".career-stage-year")).toHaveText("2016");
+  await page.getByRole("button", { name: "2018: Bremen" }).click();
+  await expect(page.locator(".career-stage-kicker")).toContainText("BREMEN");
+  await expect(page.getByText("02 / 06 — EXPERIENCE")).toBeVisible();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByText("03 / 06 — EXPERTISE")).toBeVisible();
+  await expect(page.locator(".capability-panel")).toHaveCount(6);
   await page.keyboard.press("0");
-  await expect(page.locator(".chapter-grid button")).toHaveCount(7);
+  await expect(page.locator(".chapter-grid button")).toHaveCount(6);
   await page.getByRole("button", { name: /04 RELEASE PORTAL/ }).click();
   await expect(
     page.getByRole("heading", { name: "Release Portal.", exact: true }),
   ).toBeVisible();
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByText("05 / 07 — WATCHTOWER")).toBeVisible();
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByText("06 / 07 — SMART DISPATCH")).toBeVisible();
+  await expect(page.getByText("06 / 06 — BEYOND")).toBeVisible();
+  await expect(page.locator(".deck-slide")).toHaveAttribute("id", "beyond");
+  await page.keyboard.press("ArrowLeft");
+  await expect(page.getByText("05 / 06 — WATCHTOWER")).toBeVisible();
+  await expect(page.locator(".deck-slide")).toHaveAttribute("id", "watchtower");
   await page.keyboard.press("ArrowRight");
-  await expect(page.getByText("07 / 07 — BEYOND")).toBeVisible();
+  await expect(page.getByText("06 / 06 — BEYOND")).toBeVisible();
   await expect(
     page.getByRole("button", { name: "Nächste Folie" }),
   ).toBeDisabled();
   await page.keyboard.press("ArrowLeft");
   await page.keyboard.press("0");
   await page.keyboard.press("0");
-  await expect(page.getByText("06 / 07 — SMART DISPATCH")).toBeVisible();
+  await expect(page.getByText("05 / 06 — WATCHTOWER")).toBeVisible();
   await page.keyboard.press("Escape");
   await expect(page).toHaveURL(/\/#projects$/);
 });
@@ -136,7 +153,7 @@ test("Tastaturzugang und sehr kleine Displays", async ({ page }) => {
   }
 });
 
-test("Alle sieben Folien passen ohne Scrollen zwischen die Navigationsleisten", async ({
+test("Alle sechs Folien passen ohne Scrollen zwischen die Navigationsleisten", async ({
   page,
 }, testInfo) => {
   test.skip(
@@ -150,7 +167,6 @@ test("Alle sieben Folien passen ohne Scrollen zwischen die Navigationsleisten", 
     "EXPERTISE",
     "RELEASE PORTAL",
     "WATCHTOWER",
-    "SMART DISPATCH",
     "BEYOND",
   ];
   for (const reducedMotion of ["reduce", "no-preference"] as const) {
@@ -164,12 +180,16 @@ test("Alle sieben Folien passen ohne Scrollen zwischen die Navigationsleisten", 
     ]) {
       await page.setViewportSize({ width, height });
       await page.goto("/present");
-      await expect(page.locator(".chapter-dots button")).toHaveCount(7);
+      await expect(page.locator(".chapter-dots button")).toHaveCount(6);
       await expect(page.locator(".presentation-header a")).toHaveCount(0);
       for (const [index, label] of labels.entries()) {
         await expect(
-          page.getByText(`0${index + 1} / 07 — ${label}`),
+          page.getByText(`0${index + 1} / 06 — ${label}`),
         ).toBeVisible();
+        await expect(page.locator(".presentation-transition-frame")).toHaveCSS(
+          "opacity",
+          "1",
+        );
         await page.evaluate(() => document.fonts.ready);
         await page
           .locator(".deck-slide img")
@@ -203,7 +223,7 @@ test("Alle sieben Folien passen ohne Scrollen zwischen die Navigationsleisten", 
           // Scroll height catches content exceeding panels even when the slide itself is fixed.
           const clipped = [
             ...document.querySelectorAll(
-              ".deck-slide,.career-panel,.capability-panel,.project-slide-copy",
+              ".deck-slide,.career-stage-panel,.capability-panel,.project-slide-copy",
             ),
           ]
             .filter((el) => el.scrollHeight > el.clientHeight + 1)
@@ -227,7 +247,7 @@ test("Alle sieben Folien passen ohne Scrollen zwischen die Navigationsleisten", 
         if (index < labels.length - 1) await page.keyboard.press("ArrowRight");
       }
       await page.keyboard.press("0");
-      await expect(page.locator(".chapter-grid button")).toHaveCount(7);
+      await expect(page.locator(".chapter-grid button")).toHaveCount(6);
       expect(
         await page.evaluate(
           () => document.documentElement.scrollHeight <= innerHeight,

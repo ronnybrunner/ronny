@@ -71,6 +71,62 @@ export const capabilities: Capability[] = [
       "CV: Operations Manager II, Release-/Lifecycle-Management und Eventbetrieb",
   },
 ];
+
+// Compact presentation grouping. The normal site keeps its existing expertise
+// sections; this map combines the same evidence with verified project tooling.
+export const presentationCapabilities = [
+  {
+    id: "network",
+    label: "NETWORKING",
+    description: "Campus-Netzwerke und Standortanbindung.",
+    topics: capabilities[0].topics,
+  },
+  {
+    id: "collaboration",
+    label: "COLLABORATION",
+    description: "Cisco Unified Communications und Integration.",
+    topics: capabilities[1].topics,
+  },
+  {
+    id: "security-lifecycle",
+    label: "SECURITY & LIFECYCLE",
+    description: "Advisories, Softwarestände und geplante Änderungen.",
+    topics: capabilities[2].topics,
+  },
+  {
+    id: "operations",
+    label: "OPERATIONS",
+    description: "Support, Fehleranalyse und technischer Betrieb.",
+    topics: [
+      "2nd- / 3rd-Level-Support",
+      "Troubleshooting",
+      "Release Management",
+      "Lifecycle & Reporting",
+    ],
+  },
+  {
+    id: "platforms",
+    label: "PLATFORMS & VENDORS",
+    description: "Produkte und Plattformen aus realen Infrastrukturprojekten.",
+    topics: [
+      "Cisco UCS · Projektplattform",
+      "VMware vCenter",
+      "Microsoft / Windows Server",
+    ],
+  },
+  {
+    id: "development",
+    label: "DEVELOPMENT & AUTOMATION",
+    description: "Eigene Software, Tooling und Workflow-Automatisierung.",
+    topics: [
+      "React · TypeScript · Fastify API",
+      "PostgreSQL · Docker · Git / GitHub",
+      "Windmill · Python / Bash · Linux",
+      "AI-assisted Development",
+    ],
+  },
+] as const;
+
 export const technologyEnvironment = [
   {
     name: "Cisco UCS",

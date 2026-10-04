@@ -5,6 +5,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowLeft, ArrowRight, Grid2X2, Maximize, X } from "lucide-react";
 import { presentationSlides as slides } from "../content/presentation";
 import { projectCatalog as projects } from "../content/projects";
@@ -20,9 +21,13 @@ import { Link } from "../components/Link";
 import { navigate } from "../hooks/useRoute";
 export default function Present() {
   const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState(1);
   const [overview, setOverview] = useState(false);
   const [fullscreenError, setFullscreenError] = useState("");
   const heading = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const enterDuration = prefersReducedMotion ? 0.08 : 0.36;
+  const exitDuration = prefersReducedMotion ? 0.08 : 0.2;
   const exit = useCallback(() => {
     const leave = async () => {
       try {
@@ -37,10 +42,17 @@ export default function Present() {
     void leave();
   }, [index]);
   const move = useCallback((n: number) => {
+    setDirection(n >= 0 ? 1 : -1);
     setIndex((i) => Math.max(0, Math.min(slides.length - 1, i + n)));
     setOverview(false);
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
+  const selectSlide = (target: number) => {
+    setDirection(target >= index ? 1 : -1);
+    setIndex(target);
+    setOverview(false);
+    window.scrollTo({ top: 0, behavior: "instant" });
+  };
   const toggleOverview = useCallback(() => {
     setOverview((value) => !value);
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -144,14 +156,7 @@ export default function Present() {
             <h1>Kapitelübersicht</h1>
             <div className="chapter-grid">
               {slides.map((c, i) => (
-                <button
-                  key={c.id}
-                  onClick={() => {
-                    setIndex(i);
-                    setOverview(false);
-                    window.scrollTo({ top: 0, behavior: "instant" });
-                  }}
-                >
+                <button key={c.id} onClick={() => selectSlide(i)}>
                   <span>0{i + 1}</span>
                   <strong>{c.label}</strong>
                   <small>{c.title}</small>
@@ -160,7 +165,40 @@ export default function Present() {
             </div>
           </div>
         ) : (
-          content
+          <AnimatePresence mode="wait" initial={false} custom={direction}>
+            <motion.div
+              key={chapter.id}
+              className="presentation-transition-frame"
+              custom={direction}
+              variants={{
+                enter: (travel: number) => ({
+                  opacity: 0,
+                  x: prefersReducedMotion ? 0 : travel * 12,
+                }),
+                center: {
+                  opacity: 1,
+                  x: 0,
+                  transition: {
+                    opacity: { duration: enterDuration },
+                    x: { duration: enterDuration, ease: [0.22, 1, 0.36, 1] },
+                  },
+                },
+                exit: (travel: number) => ({
+                  opacity: 0,
+                  x: prefersReducedMotion ? 0 : travel * -10,
+                  transition: {
+                    opacity: { duration: exitDuration },
+                    x: { duration: exitDuration, ease: [0.22, 1, 0.36, 1] },
+                  },
+                }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+            >
+              {content}
+            </motion.div>
+          </AnimatePresence>
         )}
       </main>
       <aside
@@ -196,11 +234,7 @@ export default function Present() {
               className={i === index ? "active" : ""}
               aria-current={i === index ? "step" : undefined}
               aria-label={`Folie ${i + 1}: ${c.title}`}
-              onClick={() => {
-                setIndex(i);
-                setOverview(false);
-                window.scrollTo({ top: 0, behavior: "instant" });
-              }}
+              onClick={() => selectSlide(i)}
             />
           ))}
         </div>

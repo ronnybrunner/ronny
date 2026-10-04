@@ -3,7 +3,15 @@ import { chromium, expect } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
 const base = process.env.PRESENTATION_AUDIT_URL || "http://127.0.0.1:4173";
-const output = "artifacts/presentation-v3";
+const output = "artifacts/presentation-v4";
+const slideIds = [
+  "me",
+  "experience",
+  "expertise",
+  "release-portal",
+  "watchtower",
+  "beyond",
+];
 await mkdir(output, { recursive: true });
 const browser = await chromium.launch();
 const audit = [];
@@ -22,13 +30,18 @@ try {
     const errors = [];
     page.on("pageerror", (error) => errors.push(error.message));
     await page.goto(`${base.replace(/\/$/, "")}/present/`);
-    await expect(page.locator(".chapter-dots button")).toHaveCount(7);
+    await expect(page.locator(".chapter-dots button")).toHaveCount(6);
     const slideCount = await page.locator(".chapter-dots button").count();
     for (let index = 0; index < slideCount; index++) {
       await expect(page.locator(".presentation-header > span")).toContainText(
-        `0${index + 1} / 07 —`,
+        `0${index + 1} / 06 —`,
       );
-      const slideId = await page.locator(".deck-slide").getAttribute("id");
+      const slideId = slideIds[index];
+      await expect(page.locator(".deck-slide")).toHaveAttribute("id", slideId);
+      await expect(page.locator(".presentation-transition-frame")).toHaveCSS(
+        "opacity",
+        "1",
+      );
       await page.evaluate(() => document.fonts.ready);
       await page
         .locator(".deck-slide img")
@@ -57,7 +70,7 @@ try {
           .map((el) => el.textContent || el.getAttribute("alt"));
         const clipped = [
           ...document.querySelectorAll(
-            ".deck-slide,.career-panel,.capability-panel,.project-slide-copy",
+            ".deck-slide,.career-stage-panel,.capability-panel,.project-slide-copy",
           ),
         ]
           .filter((el) => el.scrollHeight > el.clientHeight + 1)
@@ -75,7 +88,7 @@ try {
       if (index < slideCount - 1) await page.keyboard.press("ArrowRight");
     }
     await page.keyboard.press("0");
-    await expect(page.locator(".chapter-grid button")).toHaveCount(7);
+    await expect(page.locator(".chapter-grid button")).toHaveCount(6);
     await page.screenshot({
       path: `${output}/${width}x${height}-overview.png`,
     });
